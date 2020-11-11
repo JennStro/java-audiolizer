@@ -1,7 +1,8 @@
-import com.sun.jdi.Bootstrap;
+import com.sun.jdi.*;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
-import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.event.*;
+import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 
 import java.util.Map;
@@ -54,14 +55,59 @@ public class Debugger {
         classPrepareRequest.enable();
     }
 
+    public void setBreakPoints(VirtualMachine virtualMachine, ClassPrepareEvent event) throws AbsentInformationException {
+        ClassType classType = (ClassType) event.referenceType();
+        for(int lineNumber : breakpointLines) {
+            Location location = classType.locationsOfLine(lineNumber).get(0);
+            BreakpointRequest breakpointRequest = virtualMachine.eventRequestManager().createBreakpointRequest(location);
+            breakpointRequest.enable();
+        }
+    }
+
+    /**
+     * Get the current stackframe. If the debugee class is in the current instruction of this frame, then get its
+     * visible variables and print them.
+     *
+     * @param event
+     * @throws IncompatibleThreadStateException
+     * @throws AbsentInformationException
+     */
+    public void printVisibleVariables(LocatableEvent event) throws IncompatibleThreadStateException, AbsentInformationException {
+        StackFrame stackFrame = event.thread().frame(0);
+        if(stackFrame.location().toString().contains(debugee.getName())) {
+            Map<LocalVariable, Value> visibleVariables = stackFrame.getValues(stackFrame.visibleVariables());
+            System.out.println("Variables at " + stackFrame.location().toString() +  " > ");
+            for (Map.Entry<LocalVariable, Value> entry : visibleVariables.entrySet()) {
+                System.out.println(entry.getKey().name() + " = " + entry.getValue());
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         debugger.setDebugee(ExampleProgram.class);
-        int[] breakpoints = {5, 6};
+        int[] breakpoints = {5};
         debugger.setBreakpointLines(breakpoints);
         try {
-            VirtualMachine vm = debugger.connectAndLaunchVirtualMachine();
-            vm.resume();
+            VirtualMachine virtualMachine = debugger.connectAndLaunchVirtualMachine();
+            debugger.enableClassPrepareRequest(virtualMachine);
+
+            EventSet events;
+            while ((events = virtualMachine.eventQueue().remove()) != null) {
+                for (Event event : events) {
+                    if (event instanceof ClassPrepareEvent) {
+                        debugger.setBreakPoints(virtualMachine, (ClassPrepareEvent) event);
+                    }
+                    if (event instanceof BreakpointEvent) {
+                        debugger.printVisibleVariables((BreakpointEvent) event);
+                    }
+                    virtualMachine.resume();
+                }
+            }
+
+            virtualMachine.resume();
+        } catch (VMDisconnectedException e) {
+            System.out.println("Virtual Machine is disconnected.");
         } catch(Exception e) {
             e.printStackTrace();
         }
