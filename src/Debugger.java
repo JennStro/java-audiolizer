@@ -110,7 +110,9 @@ public class Debugger {
             while ((events = virtualMachine.eventQueue().remove()) != null) {
                 for (Event event : events) {
                     if (event instanceof MethodEntryEvent) {
+                        Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("A method has been entered!!!");
+                        System.out.println(enteredMethod.toString());
                         debugger.printVisibleVariables((MethodEntryEvent) event);
                     }
                     virtualMachine.resume();
