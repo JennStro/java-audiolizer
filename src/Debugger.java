@@ -117,8 +117,6 @@ public class Debugger {
                     virtualMachine.resume();
                 }
             }
-
-            virtualMachine.resume();
         } catch (VMDisconnectedException e) {
             System.out.println("Virtual Machine is disconnected.");
         } catch(Exception e) {
