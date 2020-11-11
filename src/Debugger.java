@@ -4,6 +4,7 @@ import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
+import com.sun.jdi.request.MethodEntryRequest;
 
 import java.util.Map;
 
@@ -49,10 +50,23 @@ public class Debugger {
      *
      * @param virtualMachine
      */
-    public void enableClassPrepareRequest(VirtualMachine virtualMachine) {
+    public void listenToClassPrepareEvents(VirtualMachine virtualMachine) {
         ClassPrepareRequest classPrepareRequest = virtualMachine.eventRequestManager().createClassPrepareRequest();
         classPrepareRequest.addClassFilter(debugee.getName());
         classPrepareRequest.enable();
+    }
+
+    /**
+     * Enable methodEntryRequest to get notified when a method is entried  in the debugee class.
+     *
+     * @see <a href="https://docs.oracle.com/javase/8/docs/jdk/api/jpda/jdi/com/sun/jdi/event/MethodEntryEvent.html">MethodEntryEvent</a>
+     *
+     * @param virtualMachine
+     */
+    public void listenToMethodEntryEvents(VirtualMachine virtualMachine) {
+        MethodEntryRequest methodEntryRequest = virtualMachine.eventRequestManager().createMethodEntryRequest();
+        methodEntryRequest.addClassFilter(debugee.getName());
+        methodEntryRequest.enable();
     }
 
     public void setBreakPoints(VirtualMachine virtualMachine, ClassPrepareEvent event) throws AbsentInformationException {
@@ -90,16 +104,14 @@ public class Debugger {
         debugger.setBreakpointLines(breakpoints);
         try {
             VirtualMachine virtualMachine = debugger.connectAndLaunchVirtualMachine();
-            debugger.enableClassPrepareRequest(virtualMachine);
+            debugger.listenToMethodEntryEvents(virtualMachine);
 
             EventSet events;
             while ((events = virtualMachine.eventQueue().remove()) != null) {
                 for (Event event : events) {
-                    if (event instanceof ClassPrepareEvent) {
-                        debugger.setBreakPoints(virtualMachine, (ClassPrepareEvent) event);
-                    }
-                    if (event instanceof BreakpointEvent) {
-                        debugger.printVisibleVariables((BreakpointEvent) event);
+                    if (event instanceof MethodEntryEvent) {
+                        System.out.println("A method has been entered!!!");
+                        debugger.printVisibleVariables((MethodEntryEvent) event);
                     }
                     virtualMachine.resume();
                 }
