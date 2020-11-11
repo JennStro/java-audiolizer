@@ -113,7 +113,6 @@ public class Debugger {
                         Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("A method has been entered!!!");
                         System.out.println(enteredMethod.toString());
-                        debugger.printVisibleVariables((MethodEntryEvent) event);
                     }
                     virtualMachine.resume();
                 }
