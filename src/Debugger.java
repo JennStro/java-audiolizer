@@ -26,6 +26,12 @@ public class Debugger {
         this.breakpointLines = breakpointLines;
     }
 
+    /**
+     * Create connector and give it the debuggee's main class, connect this debugger to the VM and launch the VM.
+     *
+     * @return Virtual Machine for debugging
+     * @throws Exception
+     */
     public VirtualMachine connectAndLaunchVirtualMachine() throws Exception {
         LaunchingConnector launchingConnector = Bootstrap.virtualMachineManager().defaultConnector();
         Map<String, Connector.Argument> connectorArguments = launchingConnector.defaultArguments();
