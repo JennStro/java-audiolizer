@@ -1,8 +1,13 @@
 public class ExampleProgram {
 
+    public String helloWorld() {
+        return "Hello world!";
+    }
+
     public static void main(String[] args) {
 
-        System.out.println("Hello, this is an example.");
+        ExampleProgram exampleProgram = new ExampleProgram();
+        exampleProgram.helloWorld();
 
     }
 
