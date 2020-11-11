@@ -1,0 +1,16 @@
+.idea
+
+*.idea
+*.iml
+*.class
+
+*.jar
+*.war
+*.ear
+
+hs_err_pid*
+
+*.log
+
+
+
