@@ -31,10 +31,24 @@ public class AudioPlayer {
     }
 
     /**
-     * @return Get length of clip in milliseconds.
+     *
+     * @return How many milliseconds left to play. Return 0 if clip is null.
+     */
+    public Long timeLeft() {
+        if (clip != null) {
+            return getLengthOfClip() - timePlayed();
+        }
+        return 0L;
+    }
+
+    /**
+     * @return Get length of clip in milliseconds. Return 0 if clip is null.
      */
     public Long getLengthOfClip() {
-        return convertToMilliseconds(clip.getMicrosecondLength());
+        if (clip != null) {
+            return convertToMilliseconds(clip.getMicrosecondLength());
+        }
+        return 0L;
     }
 
     public Long convertToMilliseconds(Long microseconds) {
@@ -43,10 +57,13 @@ public class AudioPlayer {
 
     /**
      *
-     * @return number of milliseconds this clip has played
+     * @return number of milliseconds this clip has played. 0 if clip is null.
      */
     public Long timePlayed() {
-        return convertToMilliseconds(clip.getMicrosecondPosition());
+        if (clip != null) {
+            return convertToMilliseconds(clip.getMicrosecondPosition());
+        }
+        return 0L;
     }
 
 }

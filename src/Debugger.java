@@ -99,20 +99,20 @@ public class Debugger {
     }
 
     /**
-     * Wait 10 ms before checking if player is playing the clip, because it takes some time before the
+     * Wait 1 ms before checking if player is playing the clip, because it takes some time before the
      * clip is actually activated. Wait until the player has finished.
      *
      * @param player
      */
     public void waitForAudioPlayerToFinish(AudioPlayer player) {
         try {
-            Thread.sleep(100);
+            Thread.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         while(player.isPlaying()) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
