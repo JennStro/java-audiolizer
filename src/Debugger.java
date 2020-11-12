@@ -3,7 +3,6 @@ import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.MethodEntryRequest;
-import com.sun.jdi.request.StepRequest;
 
 import java.util.Map;
 
@@ -65,7 +64,7 @@ public class Debugger {
 
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
-        debugger.setDebugee(Main.class);
+        debugger.setDebugee(instrumentMain.class);
 
         AudioPlayer player = new AudioPlayer();
 
@@ -79,7 +78,12 @@ public class Debugger {
                     if (event instanceof MethodEntryEvent) {
                         Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("METHOD: "+enteredMethod.toString());
-                        player.play("Piano_C3.aif", 1000L);
+
+                        if ("instrumentMain.main(java.lang.String[])".equals(enteredMethod.toString())) {
+                            player.play("main.aif", 1500L);
+                        } else {
+                            player.play("Piano_C3.aif", 1000L);
+                        }
                     }
                     virtualMachine.resume();
                 }
