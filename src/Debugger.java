@@ -112,7 +112,7 @@ public class Debugger {
         }
         while(player.isPlaying()) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(player.getLengthOfClip());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
