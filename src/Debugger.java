@@ -37,19 +37,9 @@ public class Debugger {
      */
     public void listenToMethodEntryEvents(VirtualMachine virtualMachine) {
         MethodEntryRequest methodEntryRequest = virtualMachine.eventRequestManager().createMethodEntryRequest();
-        methodEntryRequest.addClassFilter(debugee.getName());
+        methodEntryRequest.addClassFilter("instrument*");
         methodEntryRequest.enable();
     }
-
-    public void listenToStepEvents(VirtualMachine vm, MethodEntryEvent event) {
-        System.out.println(event.location().toString());
-        if (event.location().toString().contains(debugee.getName() + ":4")) {
-            StepRequest stepRequest = vm.eventRequestManager().createStepRequest(event.thread(), StepRequest.STEP_LINE, StepRequest.STEP_INTO);
-            stepRequest.addCountFilter(1);
-            stepRequest.enable();
-        }
-    }
-
 
     /**
      * Wait 1 ms before checking if player is playing the clip, because it takes some time before the
@@ -75,7 +65,7 @@ public class Debugger {
 
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
-        debugger.setDebugee(ExampleProgram.class);
+        debugger.setDebugee(Main.class);
 
         AudioPlayer player = new AudioPlayer();
 
@@ -89,11 +79,7 @@ public class Debugger {
                     if (event instanceof MethodEntryEvent) {
                         Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("METHOD: "+enteredMethod.toString());
-                        debugger.listenToStepEvents(virtualMachine, (MethodEntryEvent) event);
                         player.play("Piano_C3.aif", 1000L);
-                    }
-                    if (event instanceof StepEvent) {
-                        System.out.println("Stepped");
                     }
                     virtualMachine.resume();
                 }
