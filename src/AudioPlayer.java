@@ -66,4 +66,7 @@ public class AudioPlayer {
         return 0L;
     }
 
+    public void stop() {
+        clip.stop();
+    }
 }

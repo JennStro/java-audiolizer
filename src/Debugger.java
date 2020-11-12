@@ -110,12 +110,13 @@ public class Debugger {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while(player.isPlaying()) {
+        if(player.isPlaying()) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(player.timeLeft());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            player.stop();
         }
     }
 
