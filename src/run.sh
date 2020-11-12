@@ -2,8 +2,8 @@
 
 javac -g Debugger.java
 javac -g AudioPlayer.java
-javac -g instrumentPiano.java
-javac -g instrumentGuitar.java
-javac -g instrumentMain.java
+javac -g InstrumentPiano.java
+javac -g InstrumentGuitar.java
+javac -g InstrumentMain.java
 
 java Debugger

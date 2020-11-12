@@ -36,7 +36,7 @@ public class Debugger {
      */
     public void listenToMethodEntryEvents(VirtualMachine virtualMachine) {
         MethodEntryRequest methodEntryRequest = virtualMachine.eventRequestManager().createMethodEntryRequest();
-        methodEntryRequest.addClassFilter("instrument*");
+        methodEntryRequest.addClassFilter("Instrument*");
         methodEntryRequest.enable();
     }
 
@@ -64,7 +64,7 @@ public class Debugger {
 
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
-        debugger.setDebugee(instrumentMain.class);
+        debugger.setDebugee(InstrumentMain.class);
 
         AudioPlayer player = new AudioPlayer();
 
