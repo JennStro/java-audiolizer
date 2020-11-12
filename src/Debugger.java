@@ -100,8 +100,9 @@ public class Debugger {
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         debugger.setDebugee(ExampleProgram.class);
-        int[] breakpoints = {5};
-        debugger.setBreakpointLines(breakpoints);
+
+        AudioPlayer player = new AudioPlayer();
+
         try {
             VirtualMachine virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
@@ -113,6 +114,11 @@ public class Debugger {
                         Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("A method has been entered!!!");
                         System.out.println(enteredMethod.toString());
+                        player.play("Piano_C3.aif");
+                        Thread.sleep(100);
+                        while(player.isPlaying()) {
+                            Thread.sleep(100);
+                        }
                     }
                     virtualMachine.resume();
                 }
