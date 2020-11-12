@@ -106,13 +106,13 @@ public class Debugger {
      */
     public void waitForAudioPlayerToFinish(AudioPlayer player) {
         try {
-            Thread.sleep(10);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         while(player.isPlaying()) {
             try {
-                Thread.sleep(player.getLengthOfClip());
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

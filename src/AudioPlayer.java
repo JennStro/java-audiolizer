@@ -25,7 +25,7 @@ public class AudioPlayer {
      */
     public boolean isPlaying() {
         if (clip != null) {
-            return clip.isActive();
+            return timePlayed() < getLengthOfClip();
         }
         return false;
     }
@@ -39,6 +39,14 @@ public class AudioPlayer {
 
     public Long convertToMilliseconds(Long microseconds) {
         return microseconds / 1000;
+    }
+
+    /**
+     *
+     * @return number of milliseconds this clip has played
+     */
+    public Long timePlayed() {
+        return convertToMilliseconds(clip.getMicrosecondPosition());
     }
 
 }
