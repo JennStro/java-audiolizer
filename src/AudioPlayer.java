@@ -20,11 +20,25 @@ public class AudioPlayer {
 
     }
 
+    /**
+     * @return true if this clip is playing.
+     */
     public boolean isPlaying() {
         if (clip != null) {
             return clip.isActive();
         }
         return false;
+    }
+
+    /**
+     * @return Get length of clip in milliseconds.
+     */
+    public Long getLengthOfClip() {
+        return convertToMilliseconds(clip.getMicrosecondLength());
+    }
+
+    public Long convertToMilliseconds(Long microseconds) {
+        return microseconds / 1000;
     }
 
 }

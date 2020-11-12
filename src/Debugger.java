@@ -6,6 +6,7 @@ import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.MethodEntryRequest;
 
+import javax.sound.sampled.AudioSystem;
 import java.util.Map;
 
 public class Debugger {
@@ -97,6 +98,27 @@ public class Debugger {
         }
     }
 
+    /**
+     * Wait 10 ms before checking if player is playing the clip, because it takes some time before the
+     * clip is actually activated. Wait until the player has finished.
+     *
+     * @param player
+     */
+    public void waitForAudioPlayerToFinish(AudioPlayer player) {
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        while(player.isPlaying()) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         debugger.setDebugee(ExampleProgram.class);
@@ -115,10 +137,7 @@ public class Debugger {
                         System.out.println("A method has been entered!!!");
                         System.out.println(enteredMethod.toString());
                         player.play("Piano_C3.aif");
-                        Thread.sleep(100);
-                        while(player.isPlaying()) {
-                            Thread.sleep(100);
-                        }
+                        debugger.waitForAudioPlayerToFinish(player);
                     }
                     virtualMachine.resume();
                 }
