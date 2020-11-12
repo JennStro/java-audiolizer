@@ -81,8 +81,8 @@ public class Debugger {
 
                         if ("instrumentMain.main(java.lang.String[])".equals(enteredMethod.toString())) {
                             player.play("main.aif", 1500L);
-                        } else {
-                            player.play("Piano_C3.aif", 1000L);
+                        } else if (enteredMethod.isConstructor()) {
+                            player.play("init.aif", 1500L);
                         }
                     }
                     virtualMachine.resume();
