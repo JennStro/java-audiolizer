@@ -137,12 +137,12 @@ public class Debugger {
                         Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("A method has been entered!!!");
                         System.out.println(enteredMethod.toString());
-                        player.play("Piano_C3.aif");
-                        debugger.waitForAudioPlayerToFinish(player);
+                        player.play("Piano_C3.aif", 1000L);
                     }
                     virtualMachine.resume();
                 }
             }
+            debugger.waitForAudioPlayerToFinish(player);
         } catch (VMDisconnectedException e) {
             System.out.println("Virtual Machine is disconnected.");
         } catch(Exception e) {

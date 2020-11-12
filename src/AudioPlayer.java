@@ -21,6 +21,22 @@ public class AudioPlayer {
     }
 
     /**
+     * Play a file for given milliseconds and then stop the file.
+     *
+     * @param audioFilePath
+     * @param milliseconds
+     */
+    public void play(String audioFilePath, Long milliseconds) {
+        play(audioFilePath);
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        clip.stop();
+    }
+
+    /**
      * @return true if this clip is playing.
      */
     public boolean isPlaying() {
