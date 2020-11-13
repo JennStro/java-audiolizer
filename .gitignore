@@ -8,6 +8,8 @@
 *.war
 *.ear
 
+out
+
 hs_err_pid*
 
 *.log
