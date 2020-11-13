@@ -1,9 +1,9 @@
 #!/bin/zsh
 
-javac -g Debugger.java
-javac -g AudioPlayer.java
-javac -g InstrumentPiano.java
-javac -g InstrumentGuitar.java
-javac -g InstrumentMain.java
+javac -cp src/ -d target -g src/Debugger.java
+javac -cp src/ -d target -g src/AudioPlayer.java
+javac -cp src/ -d target -g src/InstrumentPiano.java
+javac -cp src/ -d target -g src/InstrumentGuitar.java
+javac -cp src/ -d target -g src/InstrumentMain.java
 
-java Debugger
+java -cp target/ Debugger
