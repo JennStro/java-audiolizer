@@ -24,6 +24,7 @@ public class Debugger {
         LaunchingConnector launchingConnector = Bootstrap.virtualMachineManager().defaultConnector();
         Map<String, Connector.Argument> connectorArguments = launchingConnector.defaultArguments();
         connectorArguments.get("main").setValue(debugee.getName());
+        connectorArguments.get("options").setValue("-cp " + System.getProperty("java.class.path"));
         return launchingConnector.launch(connectorArguments);
     }
 
@@ -71,6 +72,7 @@ public class Debugger {
         try {
             VirtualMachine virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
+            virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
 
             EventSet events;
             while ((events = virtualMachine.eventQueue().remove()) != null) {
@@ -80,10 +82,14 @@ public class Debugger {
                         System.out.println("METHOD: "+enteredMethod.toString());
 
                         if ("InstrumentMain.main(java.lang.String[])".equals(enteredMethod.toString())) {
-                            player.play("sounds/main.aif", 1500L);
+                            player.play("resources/main.aif", 1500L);
                         } else if (enteredMethod.isConstructor()) {
-                            player.play("sounds/init.aif", 1500L);
+                            player.play("resources/init.aif", 1500L);
                         }
+                    }
+
+                    if (event instanceof ExceptionEvent) {
+                        System.out.println(event.toString());
                     }
                     virtualMachine.resume();
                 }
