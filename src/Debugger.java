@@ -82,9 +82,9 @@ public class Debugger {
                         System.out.println("METHOD: "+enteredMethod.toString());
 
                         if ("InstrumentMain.main(java.lang.String[])".equals(enteredMethod.toString())) {
-                            player.play("sounds/main.aif", 1500L);
+                            player.play("resources/main.aif", 1500L);
                         } else if (enteredMethod.isConstructor()) {
-                            player.play("sounds/init.aif", 1500L);
+                            player.play("resources/init.aif", 1500L);
                         }
                     }
 
