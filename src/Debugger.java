@@ -92,11 +92,13 @@ public class Debugger {
                         System.out.println("METHOD: "+enteredMethod.toString());
 
                         if (enteredMethod.toString().contains("main")) {
-                            player.play("resources/main.aif", 1500L);
+                            player.play("resources/ScreamLead_C1.aif", 1500L);
                         } else if (enteredMethod.isConstructor()) {
                             debugger.addClass(enteredMethod.toString());
                             System.out.println(debugger.getClasses());
-                            player.play("resources/init.aif", 1500L);
+                            player.play("resources/ScreamLead_C2.aif", 1500L);
+                        } else {
+                            player.play("resources/ScreamLead_A1.aif", 1000L);
                         }
                     }
 
