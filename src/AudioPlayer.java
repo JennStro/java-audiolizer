@@ -6,7 +6,7 @@ public class AudioPlayer {
 
     private Clip clip;
 
-    public void play(String audioFilePath) {
+    public void playAndStop(String audioFilePath) {
         File audioFile = new File(audioFilePath);
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(audioFile);
@@ -26,8 +26,8 @@ public class AudioPlayer {
      * @param audioFilePath
      * @param milliseconds
      */
-    public void play(String audioFilePath, Long milliseconds) {
-        play(audioFilePath);
+    public void playAndStop(String audioFilePath, Long milliseconds) {
+        playAndStop(audioFilePath);
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
@@ -36,6 +36,20 @@ public class AudioPlayer {
         clip.stop();
     }
 
+    /**
+     * Play a file for given milliseconds and let thread sleep for given ms so that other track needs to wait to play.
+     *
+     * @param audioFilePath
+     * @param milliseconds
+     */
+    public void playAndDelay(String audioFilePath, Long milliseconds) {
+        playAndStop(audioFilePath);
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * @return true if this clip is playing.
      */

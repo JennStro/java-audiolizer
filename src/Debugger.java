@@ -2,7 +2,6 @@ import com.sun.jdi.*;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.event.*;
-import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.MethodEntryRequest;
 
 import java.util.*;
@@ -94,13 +93,13 @@ public class Debugger {
                         System.out.println("METHOD: "+enteredMethod.toString());
 
                         if (enteredMethod.toString().contains("main")) {
-                            player.play("resources/ScreamLead_C1.aif", 1500L);
+                            player.playAndDelay("resources/Drums_main.aif", 1200L);
                         } else if (enteredMethod.isConstructor()) {
                             debugger.addClass(enteredMethod.toString());
                             System.out.println(debugger.getClasses());
-                            player.play("resources/ScreamLead_C2.aif", 1500L);
+                            player.playAndDelay("resources/ScreamLead_C2.aif", 1500L);
                         } else {
-                            player.play("resources/ScreamLead_A1.aif", 1000L);
+                            player.playAndDelay("resources/ScreamLead_A1.aif", 1000L);
                         }
                     }
 
