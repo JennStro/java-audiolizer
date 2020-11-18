@@ -47,7 +47,9 @@ public class Debugger {
      */
     public void listenToMethodEntryEvents(VirtualMachine virtualMachine) {
         MethodEntryRequest methodEntryRequest = virtualMachine.eventRequestManager().createMethodEntryRequest();
-        methodEntryRequest.addClassFilter("Instrument*");
+        methodEntryRequest.addClassExclusionFilter("java.*");
+        methodEntryRequest.addClassExclusionFilter("jdk.*");
+        methodEntryRequest.addClassExclusionFilter("sun.*");
         methodEntryRequest.enable();
     }
 
