@@ -2,16 +2,26 @@ import com.sun.jdi.*;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.event.*;
+import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.MethodEntryRequest;
 
-import java.util.Map;
+import java.util.*;
 
 public class Debugger {
 
     private Class debugee;
+    private HashSet<String> classes = new HashSet<>();
 
     public void setDebugee(Class debugee) {
         this.debugee = debugee;
+    }
+
+    public HashSet<String> getClasses() {
+        return classes;
+    }
+
+    public void addClass(String className) {
+        classes.add(className);
     }
 
     /**
@@ -81,9 +91,11 @@ public class Debugger {
                         Method enteredMethod = ((MethodEntryEvent) event).method();
                         System.out.println("METHOD: "+enteredMethod.toString());
 
-                        if ("InstrumentMain.main(java.lang.String[])".equals(enteredMethod.toString())) {
+                        if (enteredMethod.toString().contains("main")) {
                             player.play("resources/main.aif", 1500L);
                         } else if (enteredMethod.isConstructor()) {
+                            debugger.addClass(enteredMethod.toString());
+                            System.out.println(debugger.getClasses());
                             player.play("resources/init.aif", 1500L);
                         }
                     }
