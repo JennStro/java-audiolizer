@@ -93,13 +93,13 @@ public class Debugger {
                         System.out.println("METHOD: "+enteredMethod.toString());
 
                         if (enteredMethod.toString().contains("main")) {
-                            player.playAndDelay("resources/Drums_main.aif", 1200L);
+                            player.playAndDelay("resources/Drums_main.aif", 2000L);
                         } else if (enteredMethod.isConstructor()) {
                             debugger.addClass(enteredMethod.toString());
                             System.out.println(debugger.getClasses());
-                            player.playAndDelay("resources/ScreamLead_C2.aif", 1500L);
+                            player.playAndDelay("resources/ScreamLead_C2.aif", 200L);
                         } else {
-                            player.playAndDelay("resources/ScreamLead_A1.aif", 1000L);
+                            player.playAndDelay("resources/ScreamLead_A1.aif", 2000L);
                         }
                     }
 

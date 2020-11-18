@@ -6,7 +6,7 @@ public class AudioPlayer {
 
     private Clip clip;
 
-    public void playAndStop(String audioFilePath) {
+    public void play(String audioFilePath) {
         File audioFile = new File(audioFilePath);
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(audioFile);
@@ -27,7 +27,7 @@ public class AudioPlayer {
      * @param milliseconds
      */
     public void playAndStop(String audioFilePath, Long milliseconds) {
-        playAndStop(audioFilePath);
+        play(audioFilePath);
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
@@ -43,7 +43,7 @@ public class AudioPlayer {
      * @param milliseconds
      */
     public void playAndDelay(String audioFilePath, Long milliseconds) {
-        playAndStop(audioFilePath);
+        play(audioFilePath);
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
