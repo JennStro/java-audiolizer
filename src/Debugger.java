@@ -78,8 +78,6 @@ public class Debugger {
         Debugger debugger = new Debugger();
         debugger.setDebugee(InstrumentMain.class);
 
-        AudioPlayer player = new AudioPlayer();
-
         try {
             VirtualMachine virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
@@ -93,13 +91,16 @@ public class Debugger {
                         System.out.println("METHOD: "+enteredMethod.toString());
 
                         if (enteredMethod.toString().contains("main")) {
-                            player.playAndDelay("resources/Drums_main.aif", 2000L);
+                            AudioPlayer player = new AudioPlayer();
+                            player.playAndDelay("resources/Drums_main.aif", 2500L);
                         } else if (enteredMethod.isConstructor()) {
                             debugger.addClass(enteredMethod.toString());
                             System.out.println(debugger.getClasses());
-                            player.playAndDelay("resources/ScreamLead_C2.aif", 200L);
+                            AudioPlayer player = new AudioPlayer();
+                            player.playAndDelayThenStop("resources/ScreamLead_C2.aif", 2900L, 3000L);
                         } else {
-                            player.playAndDelay("resources/ScreamLead_A1.aif", 2000L);
+                            AudioPlayer player = new AudioPlayer();
+                            player.playAndDelayThenStop("resources/ScreamLead_A1.aif", 2900L, 3000L);
                         }
                     }
 
@@ -109,7 +110,6 @@ public class Debugger {
                     virtualMachine.resume();
                 }
             }
-            debugger.waitForAudioPlayerToFinish(player);
         } catch (VMDisconnectedException e) {
             System.out.println("Virtual Machine is disconnected.");
         } catch(Exception e) {

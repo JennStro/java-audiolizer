@@ -50,6 +50,30 @@ public class AudioPlayer {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Play a file for given milliseconds and let thread sleep for given ms so that other track needs to wait to play.
+     * Stop the play after given ms.
+     *
+     */
+    public void playAndDelayThenStop(String audioFilePath, Long delayMilliseconds, Long stopMilliseconds) {
+        Thread playSong = new Thread(() -> {
+            play(audioFilePath);
+            try {
+                Thread.sleep(stopMilliseconds);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            clip.stop();
+        });
+        playSong.start();
+        try {
+            Thread.sleep(delayMilliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @return true if this clip is playing.
      */
