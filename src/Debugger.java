@@ -32,14 +32,6 @@ public class Debugger {
         this.debugee = debugee;
     }
 
-    public HashSet<String> getClasses() {
-        return classes;
-    }
-
-    public void addClass(String className) {
-        classes.add(className);
-    }
-
     /**
      * Create connector and give it the debuggee's main class, connect this debugger to the VM and launch the VM.
      *
