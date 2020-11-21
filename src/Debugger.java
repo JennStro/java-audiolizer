@@ -12,20 +12,20 @@ public class Debugger {
     private HashMap<String, String> methodSounds;
     private ArrayList<String> methods;
     // Not actual scream, this is just what the instrument was called in GarageBand :)
-    private HashMap<String, String> screamNotes;
+    private ArrayList<String> screamNotes;
 
     public Debugger() {
         this.methods = new ArrayList<>();
         this.methodSounds = new HashMap<>();
-        this.screamNotes = new HashMap<>(Map.of(
-                "C1", "ScreamLead_C1",
-                "D1", "ScreamLead_D1",
-                "E1", "ScreamLead_E1",
-                "F1", "ScreamLead_F1",
-                "G1", "ScreamLead_G1",
-                "A1", "ScreamLead_A1",
-                "H1", "ScreamLead_H1",
-                "C2", "ScreamLead_C2"));
+        this.screamNotes = new ArrayList<>(List.of(
+               "ScreamLead_C1",
+                "ScreamLead_D1",
+                "ScreamLead_E1",
+                "ScreamLead_F1",
+                "ScreamLead_G1",
+                "ScreamLead_A1",
+                "ScreamLead_H1",
+                "ScreamLead_C2"));
     }
 
     public void setDebugee(Class debugee) {
@@ -89,11 +89,22 @@ public class Debugger {
         return this.methods;
     }
 
+   public void assignNotesToMethods() {
+        int sound = 0;
+        for (String method : getMethods()) {
+            if (method.contains("main")) {
+                methodSounds.put(method, "resources/Drums_main.aif");
+            } else {
+                if (sound == )
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         debugger.setDebugee(InstrumentMain.class);
 
-        VirtualMachine virtualMachine = null;
+        VirtualMachine virtualMachine;
         try {
             virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
@@ -104,6 +115,8 @@ public class Debugger {
         }
 
         ArrayList<String> methods = debugger.getMethods();
+        debugger.assignNotesToMethods();
+
         for (String method : methods) {
             System.out.println(method);
             if (method.contains("main")) {
