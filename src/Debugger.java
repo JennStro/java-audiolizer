@@ -18,14 +18,14 @@ public class Debugger {
         this.methods = new ArrayList<>();
         this.methodSounds = new HashMap<>();
         this.screamNotes = new ArrayList<>(List.of(
-               "ScreamLead_C1",
-                "ScreamLead_D1",
-                "ScreamLead_E1",
-                "ScreamLead_F1",
-                "ScreamLead_G1",
-                "ScreamLead_A1",
-                "ScreamLead_H1",
-                "ScreamLead_C2"));
+               "ScreamLead_C1.aif",
+                "ScreamLead_D1.aif",
+                "ScreamLead_E1.aif",
+                "ScreamLead_F1.aif",
+                "ScreamLead_G1.aif",
+                "ScreamLead_A1.aif",
+                "ScreamLead_H1.aif",
+                "ScreamLead_C2.aif"));
     }
 
     public void setDebugee(Class debugee) {
@@ -85,6 +85,10 @@ public class Debugger {
         }
     }
 
+    public HashMap<String, String> getMethodSounds() {
+        return this.methodSounds;
+    }
+
     public ArrayList<String> getMethods() {
         return this.methods;
     }
@@ -95,7 +99,7 @@ public class Debugger {
             if (method.contains("main")) {
                 methodSounds.put(method, "resources/Drums_main.aif");
             } else {
-                methodSounds.put(method, screamNotes.get(sound));
+                methodSounds.put(method, "resources/"+screamNotes.get(sound));
             }
             sound = ((sound+1) % screamNotes.size());
         }
@@ -122,18 +126,10 @@ public class Debugger {
             System.out.println(method);
             if (method.contains("main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay("resources/Drums_main.aif", 2500L);
-            } else if (method.contains("init")) {
-                AudioPlayer player = new AudioPlayer();
-                player.playAndDelayThenStop("resources/ScreamLead_C2.aif", 500L, 3000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
             } else {
-                if (method.contains("World")) {
-                    AudioPlayer player = new AudioPlayer();
-                    player.playAndDelayThenStop("resources/ScreamLead_D1.aif", 500L, 3000L);
-                } else {
-                    AudioPlayer player = new AudioPlayer();
-                    player.playAndDelayThenStop("resources/ScreamLead_A1.aif", 500L, 3000L);
-                }
+                AudioPlayer player = new AudioPlayer();
+                player.playAndDelayThenStop(debugger.getMethodSounds().get(method), 2500L, 3000L);
             }
         }
     }
