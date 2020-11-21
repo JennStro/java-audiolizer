@@ -10,7 +10,8 @@ public class Debugger {
 
     private Class debugee;
     private HashSet<String> classes = new HashSet<>();
-    private HashMap<String, String> methods = new HashMap<>();
+    private HashMap<String, String> methodSounds = new HashMap<>();
+    private ArrayList<String> methods = new ArrayList<>();
 
     public void setDebugee(Class debugee) {
         this.debugee = debugee;
@@ -53,75 +54,66 @@ public class Debugger {
         methodEntryRequest.enable();
     }
 
-    /**
-     * Wait 1 ms before checking if player is playing the clip, because it takes some time before the
-     * clip is actually activated. Wait until the player has finished.
-     *
-     * @param player
-     */
-    public void waitForAudioPlayerToFinish(AudioPlayer player) {
-        try {
-            Thread.sleep(1);
+    public void registerMethods(VirtualMachine virtualMachine) {
+        EventSet events;
+    try {
+      while ((events = virtualMachine.eventQueue().remove()) != null) {
+        for (Event event : events) {
+          if (event instanceof ExceptionEvent) {
+            System.out.println(event.toString());
+          }
+
+          if (event instanceof MethodEntryEvent) {
+            Method enteredMethod = ((MethodEntryEvent) event).method();
+            this.methods.add(enteredMethod.name());
+          }
+          virtualMachine.resume();
+        }
+      }
+        }
+        catch (VMDisconnectedException e) {
+                System.out.println("Virtual Machine is disconnected.");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(player.isPlaying()) {
-            try {
-                Thread.sleep(player.timeLeft());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            player.stop();
-        }
+    }
+
+    public ArrayList<String> getMethods() {
+        return this.methods;
     }
 
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         debugger.setDebugee(InstrumentMain.class);
 
+        VirtualMachine virtualMachine = null;
         try {
-            VirtualMachine virtualMachine = debugger.connectAndLaunchVirtualMachine();
+            virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
             virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
+            debugger.registerMethods(virtualMachine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            EventQueue events = virtualMachine.eventQueue();
-            while ((events = virtualMachine.eventQueue().remove()) != null) {
-                for (Event event : events) {
-                    if (event instanceof MethodEntryEvent) {
-                        Method enteredMethod = ((MethodEntryEvent) event).method();
-
-                        String methodName = enteredMethod.name();
-                        System.out.println(methodName);
-
-                        if (enteredMethod.toString().contains("main")) {
-                            AudioPlayer player = new AudioPlayer();
-                            player.playAndDelay("resources/Drums_main.aif", 2500L);
-                        } else if (enteredMethod.isConstructor()) {
-                            debugger.addClass(enteredMethod.toString());
-                            System.out.println(debugger.getClasses());
-                            AudioPlayer player = new AudioPlayer();
-                            player.playAndDelayThenStop("resources/ScreamLead_C2.aif", 500L, 3000L);
-                        } else {
-                            if (enteredMethod.toString().contains("World")) {
-                                AudioPlayer player = new AudioPlayer();
-                                player.playAndDelayThenStop("resources/ScreamLead_D1.aif", 500L, 3000L);
-                            } else {
-                                AudioPlayer player = new AudioPlayer();
-                                player.playAndDelayThenStop("resources/ScreamLead_A1.aif", 500L, 3000L);
-                            }
-                        }
-                    }
-
-                    if (event instanceof ExceptionEvent) {
-                        System.out.println(event.toString());
-                    }
-                    virtualMachine.resume();
+        ArrayList<String> methods = debugger.getMethods();
+        for (String method : methods) {
+            if (method.contains("main")) {
+                AudioPlayer player = new AudioPlayer();
+                player.playAndDelay("resources/Drums_main.aif", 2500L);
+            } else if (method.contains("init")) {
+                System.out.println(debugger.getClasses());
+                AudioPlayer player = new AudioPlayer();
+                player.playAndDelayThenStop("resources/ScreamLead_C2.aif", 500L, 3000L);
+            } else {
+                if (method.contains("World")) {
+                    AudioPlayer player = new AudioPlayer();
+                    player.playAndDelayThenStop("resources/ScreamLead_D1.aif", 500L, 3000L);
+                } else {
+                    AudioPlayer player = new AudioPlayer();
+                    player.playAndDelayThenStop("resources/ScreamLead_A1.aif", 500L, 3000L);
                 }
             }
-        } catch (VMDisconnectedException e) {
-            System.out.println("Virtual Machine is disconnected.");
-        } catch(Exception e) {
-            e.printStackTrace();
         }
     }
 }
