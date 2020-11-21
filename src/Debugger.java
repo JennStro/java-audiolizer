@@ -9,9 +9,24 @@ import java.util.*;
 public class Debugger {
 
     private Class debugee;
-    private HashSet<String> classes = new HashSet<>();
-    private HashMap<String, String> methodSounds = new HashMap<>();
-    private ArrayList<String> methods = new ArrayList<>();
+    private HashMap<String, String> methodSounds;
+    private ArrayList<String> methods;
+    // Not actual scream, this is just what the instrument was called in GarageBand :)
+    private HashMap<String, String> screamNotes;
+
+    public Debugger() {
+        this.methods = new ArrayList<>();
+        this.methodSounds = new HashMap<>();
+        this.screamNotes = new HashMap<>(Map.of(
+                "C1", "ScreamLead_C1",
+                "D1", "ScreamLead_D1",
+                "E1", "ScreamLead_E1",
+                "F1", "ScreamLead_F1",
+                "G1", "ScreamLead_G1",
+                "A1", "ScreamLead_A1",
+                "H1", "ScreamLead_H1",
+                "C2", "ScreamLead_C2"));
+    }
 
     public void setDebugee(Class debugee) {
         this.debugee = debugee;
@@ -98,11 +113,11 @@ public class Debugger {
 
         ArrayList<String> methods = debugger.getMethods();
         for (String method : methods) {
+            System.out.println(method);
             if (method.contains("main")) {
                 AudioPlayer player = new AudioPlayer();
                 player.playAndDelay("resources/Drums_main.aif", 2500L);
             } else if (method.contains("init")) {
-                System.out.println(debugger.getClasses());
                 AudioPlayer player = new AudioPlayer();
                 player.playAndDelayThenStop("resources/ScreamLead_C2.aif", 500L, 3000L);
             } else {
