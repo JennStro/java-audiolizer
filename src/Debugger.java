@@ -95,8 +95,9 @@ public class Debugger {
             if (method.contains("main")) {
                 methodSounds.put(method, "resources/Drums_main.aif");
             } else {
-                if (sound == )
+                methodSounds.put(method, screamNotes.get(sound));
             }
+            sound = ((sound+1) % screamNotes.size());
         }
     }
 
