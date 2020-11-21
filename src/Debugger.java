@@ -107,7 +107,7 @@ public class Debugger {
 
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
-        debugger.setDebugee(InstrumentMain.class);
+        debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
         try {
@@ -129,7 +129,7 @@ public class Debugger {
                 player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelayThenStop(debugger.getMethodSounds().get(method), 2500L, 3000L);
+                player.playAndDelayThenStop(debugger.getMethodSounds().get(method), 500L, 1000L);
             }
         }
     }
