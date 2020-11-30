@@ -13,8 +13,10 @@ public class Debugger {
     private ArrayList<String> methods;
     // Not actual scream, this is just what the instrument was called in GarageBand :)
     private ArrayList<String> screamNotes;
+    private HashMap<String, ArrayList<String>> classes;
 
     public Debugger() {
+        this.classes = new HashMap<>();
         this.methods = new ArrayList<>();
         this.methodSounds = new HashMap<>();
         this.screamNotes = new ArrayList<>(List.of(
@@ -68,6 +70,19 @@ public class Debugger {
      */
     private String callingClass(Method method) {
         return method.toString().split("[.]")[0];
+    }
+
+    private void addMethod(Method method) {
+        String callingClass = callingClass(method);
+        String methodName = method.name();
+
+        if (!classes.containsKey(callingClass)) {
+            ArrayList<String> classMethods = new ArrayList<>();
+            classMethods.add(methodName);
+            classes.put(callingClass, classMethods);
+        } else {
+            classes.get(callingClass).add(methodName);
+        }
     }
 
     public void registerClassesAndMethods(VirtualMachine virtualMachine) {
