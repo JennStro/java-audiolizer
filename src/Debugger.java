@@ -61,7 +61,16 @@ public class Debugger {
         methodEntryRequest.enable();
     }
 
-    public void registerMethods(VirtualMachine virtualMachine) {
+    /**
+     *
+     * @param method
+     * @return the class that is calling this method
+     */
+    private String callingClass(Method method) {
+        return method.toString().split("[.]")[0];
+    }
+
+    public void registerClassesAndMethods(VirtualMachine virtualMachine) {
         EventSet events;
     try {
       while ((events = virtualMachine.eventQueue().remove()) != null) {
@@ -72,6 +81,7 @@ public class Debugger {
 
           if (event instanceof MethodEntryEvent) {
             Method enteredMethod = ((MethodEntryEvent) event).method();
+            System.out.println(callingClass(enteredMethod));
             this.methods.add(enteredMethod.name());
           }
           virtualMachine.resume();
@@ -114,7 +124,7 @@ public class Debugger {
             virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
             virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
-            debugger.registerMethods(virtualMachine);
+            debugger.registerClassesAndMethods(virtualMachine);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +139,7 @@ public class Debugger {
                 player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelayThenStop(debugger.getMethodSounds().get(method), 500L, 1000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 500L);
             }
         }
     }
