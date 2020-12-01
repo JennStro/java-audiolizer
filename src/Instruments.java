@@ -27,4 +27,10 @@ public interface Instruments {
      * @return the notes that this instrument in playing
      */
     public ArrayList<String> getNotes(HashMap<String, String> instrument);
+
+    /**
+     *
+     * @return path to file that will be played when program is started
+     */
+    public String getMainMethodSound();
 }

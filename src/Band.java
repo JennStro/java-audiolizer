@@ -42,4 +42,9 @@ public class Band implements Instruments {
         }
         return notes;
     }
+
+    @Override
+    public String getMainMethodSound() {
+        return "Drums_main.aif";
+    }
 }
