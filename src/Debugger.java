@@ -8,30 +8,17 @@ import java.util.*;
 
 public class Debugger {
 
-    private ArrayList<String> aNote;
-    private ArrayList<String> cNote;
+    private final Instruments instruments;
     private Class debugee;
     private HashMap<String, String> methodSounds;
     private ArrayList<String> methodsInExcecutionOrder;
-    // Not actual scream, this is just what the instrument was called in GarageBand :)
-    private ArrayList<String> screamNotes;
     private HashMap<String, ArrayList<String>> classes;
 
     public Debugger(Instruments intruments) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
         this.methodsInExcecutionOrder = new ArrayList<>();
-        this.cNote = new ArrayList<>(List.of("ScreamLead_C1.aif"));
-        this.aNote = new ArrayList<>(List.of("ScreamLead_A1.aif"));
-        this.screamNotes = new ArrayList<>(List.of(
-               "ScreamLead_C1.aif",
-                "ScreamLead_D1.aif",
-                "ScreamLead_E1.aif",
-                "ScreamLead_F1.aif",
-                "ScreamLead_G1.aif",
-                "ScreamLead_A1.aif",
-                "ScreamLead_H1.aif",
-                "ScreamLead_C2.aif"));
+        this.instruments = intruments;
     }
 
     public void setDebugee(Class debugee) {
@@ -129,13 +116,18 @@ public class Debugger {
 
 
    public void assignNotesToMethods() {
-        int sound = 0;
+        int instrument = 0;
+
         for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
             ArrayList<String> methods = clazz.getValue();
+
+            HashMap<String, String> instr = this.instruments.getInstruments()[instrument];
+
             for (String method : methods) {
                 if (method.contains("main")) {
                     methodSounds.put(method, "resources/Drums_main.aif");
                 } else {
+
                     methodSounds.put(method, "resources/" + screamNotes.get(sound));
                 }
                 sound = ((sound + 1) % screamNotes.size());

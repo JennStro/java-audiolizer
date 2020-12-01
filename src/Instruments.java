@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface Instruments {
@@ -19,4 +20,11 @@ public interface Instruments {
      * @return a list of all instruments
      */
     public HashMap<String, String>[] getInstruments();
+
+    /**
+     *
+     * @param instrument
+     * @return the notes that this instrument in playing
+     */
+    public ArrayList<String> getNotes(HashMap<String, String> instrument);
 }

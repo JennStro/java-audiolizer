@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,5 +31,14 @@ public class Band implements Instruments {
     @Override
     public HashMap<String, String>[] getInstruments() {
         return (HashMap<String, String>[]) new Object[]{getGuitar(), getPiano()};
+    }
+
+    @Override
+    public ArrayList<String> getNotes(HashMap<String, String> instrument) {
+        ArrayList<String> notes = new ArrayList<>();
+        for (String note : instrument.keySet()) {
+            notes.add(note);
+        }
+        return notes;
     }
 }
