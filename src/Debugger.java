@@ -148,7 +148,7 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger(new Band());
+        Debugger debugger = new Debugger(new MercuryLake());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
@@ -171,7 +171,7 @@ public class Debugger {
                 player.playAndDelay(debugger.getMethodSounds().get(method), 4000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 400L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 4000L);
             }
         }
     }
