@@ -8,6 +8,8 @@ import java.util.*;
 
 public class Debugger {
 
+    private ArrayList<String> aNote;
+    private ArrayList<String> cNote;
     private Class debugee;
     private HashMap<String, String> methodSounds;
     private ArrayList<String> methodsInExcecutionOrder;
@@ -15,10 +17,12 @@ public class Debugger {
     private ArrayList<String> screamNotes;
     private HashMap<String, ArrayList<String>> classes;
 
-    public Debugger() {
+    public Debugger(Instruments intruments) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
         this.methodsInExcecutionOrder = new ArrayList<>();
+        this.cNote = new ArrayList<>(List.of("ScreamLead_C1.aif"));
+        this.aNote = new ArrayList<>(List.of("ScreamLead_A1.aif"));
         this.screamNotes = new ArrayList<>(List.of(
                "ScreamLead_C1.aif",
                 "ScreamLead_D1.aif",
@@ -144,7 +148,7 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger();
+        Debugger debugger = new Debugger(new Band());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
