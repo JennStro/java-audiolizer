@@ -11,13 +11,13 @@ public class Debugger {
     private final Instruments instruments;
     private Class debugee;
     private HashMap<String, String> methodSounds;
-    private ArrayList<String> methodsInExcecutionOrder;
+    private ArrayList<String> methodsInExecutionOrder;
     private HashMap<String, ArrayList<String>> classes;
 
     public Debugger(Instruments intruments) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
-        this.methodsInExcecutionOrder = new ArrayList<>();
+        this.methodsInExecutionOrder = new ArrayList<>();
         this.instruments = intruments;
     }
 
@@ -96,7 +96,7 @@ public class Debugger {
 
           if (event instanceof MethodEntryEvent) {
             Method enteredMethod = ((MethodEntryEvent) event).method();
-            methodsInExcecutionOrder.add(enteredMethod.name());
+            methodsInExecutionOrder.add(enteredMethod.name());
             addMethod(enteredMethod);
           }
           virtualMachine.resume();
@@ -140,8 +140,8 @@ public class Debugger {
         }
     }
 
-    public ArrayList<String> getMethodsInExcecutionOrder() {
-        return methodsInExcecutionOrder;
+    public ArrayList<String> getMethodsInExecutionOrder() {
+        return methodsInExecutionOrder;
     }
 
     public static void main(String[] args) {
@@ -158,7 +158,7 @@ public class Debugger {
             e.printStackTrace();
         }
 
-        ArrayList<String> methods = debugger.getMethodsInExcecutionOrder();
+        ArrayList<String> methods = debugger.getMethodsInExecutionOrder();
         debugger.assignNotesToMethods();
 
         for (String method : methods) {
