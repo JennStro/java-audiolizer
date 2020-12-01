@@ -168,7 +168,7 @@ public class Debugger {
             System.out.println(method);
             if (method.contains("Main.main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 2000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 4000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
                 player.playAndDelay(debugger.getMethodSounds().get(method), 400L);

@@ -3,27 +3,13 @@ import java.util.HashMap;
 
 public interface Instruments {
 
-    /**
-     *
-     * @return the map containing notes and path to file of piano sound. <"C", "path/to/intstrument/C/note">
-     */
-    HashMap<String, String> getPiano();
 
     /**
      *
-     * @return the map containing notes and path to file of guitar sound. <"C", "path/to/intrument/C/note">
-     */
-    HashMap<String, String> getGuitar();
-
-    /**
+     * @return a list of all instruments.
      *
-     * @return the map containing notes and path to file of drum sound. <"C", "path/to/intrument/C/note">
-     */
-    HashMap<String, String> getDrums();
-
-    /**
+     * An instrument is a map containing notes and path to soundfile. <"C", "path/to/intrument_C_note">
      *
-     * @return a list of all instruments
      */
     ArrayList<HashMap<String, String>> getInstruments();
 

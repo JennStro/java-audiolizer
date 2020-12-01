@@ -5,8 +5,7 @@ import java.util.Map;
 
 public class Band implements Instruments {
 
-    @Override
-    public HashMap<String, String> getPiano() {
+    private HashMap<String, String> getPiano() {
         return new HashMap<String, String>(Map.of("C", "ScreamLead_C1.aif",
                 "D", "ScreamLead_D1.aif",
                 "E", "ScreamLead_E1.aif",
@@ -17,8 +16,7 @@ public class Band implements Instruments {
                 "C2", "ScreamLead_C2.aif"));
     }
 
-    @Override
-    public HashMap<String, String> getGuitar() {
+    private HashMap<String, String> getGuitar() {
         return new HashMap<String, String>(Map.of("C", "C1_ClassicClean.aif",
                 "D", "D1_ClassicClean.aif",
                 "E", "E1_ClassicClean.aif",
@@ -29,8 +27,7 @@ public class Band implements Instruments {
                 "C2", "C2_ClassicClean.aif"));
     }
 
-    @Override
-    public HashMap<String, String> getDrums() {
+    private HashMap<String, String> getDrums() {
         return new HashMap<String, String>(Map.of("C", "C1_SoCal.aif",
                 "D", "D1_SoCal.aif",
                 "E", "E1_SoCal.aif",
