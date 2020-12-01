@@ -131,6 +131,8 @@ public class Debugger {
                 } else {
                     String note = notes.get(noteNumber);
                     methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
+                    System.out.println(note);
+                    System.out.println(instrumentToPlay.get(note));
                     noteNumber = (noteNumber + 1) % notes.size();
                 }
             }
@@ -166,7 +168,7 @@ public class Debugger {
                 player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 500L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
             }
         }
     }
