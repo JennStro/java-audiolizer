@@ -13,5 +13,8 @@ public class Main {
         test2.helloWorld();
         test2.helloWorldAgain();
 
+        test2.reallyLongMethod();
+        test2.reallyShortMethod();
+
     }
 }

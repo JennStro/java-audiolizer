@@ -11,12 +11,15 @@ public class Debugger {
     private final Instruments instruments;
     private Class debugee;
     private HashMap<String, String> methodSounds;
+    private HashMap<String, Integer> lengthOfMethod;
     private ArrayList<String> methodsInExecutionOrder;
     private HashMap<String, ArrayList<String>> classes;
+    private final int minimum_length_of_method = 1;
 
     public Debugger(Instruments intruments) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
+        this.lengthOfMethod = new HashMap<>();
         this.methodsInExecutionOrder = new ArrayList<>();
         this.instruments = intruments;
     }
@@ -68,16 +71,29 @@ public class Debugger {
      * class name and method name.
      * @param method
      */
-    private void addMethod(Method method) {
+    private void addMethod(Method method) throws AbsentInformationException {
+        methodsInExecutionOrder.add(method.toString());
+
         String callingClass = callingClass(method);
 
         if (!classes.containsKey(callingClass)) {
             ArrayList<String> classMethods = new ArrayList<>();
             classMethods.add(method.toString());
             classes.put(callingClass, classMethods);
+
+            int numberOfLinesInMethod = method.allLineLocations().size();
+            lengthOfMethod.put(method.toString(), numberOfLinesInMethod + minimum_length_of_method);
         } else {
             classes.get(callingClass).add(method.toString());
+
+            int numberOfLinesInMethod = method.allLineLocations().size();
+            lengthOfMethod.put(method.toString(), numberOfLinesInMethod + minimum_length_of_method);
         }
+    }
+
+    public int getLengthOfMethod(String methodName) {
+        System.out.println(lengthOfMethod);
+        return lengthOfMethod.get(methodName);
     }
 
     public HashMap<String, ArrayList<String>> getClasses() {
@@ -95,7 +111,6 @@ public class Debugger {
 
           if (event instanceof MethodEntryEvent) {
             Method enteredMethod = ((MethodEntryEvent) event).method();
-            methodsInExecutionOrder.add(enteredMethod.toString());
             addMethod(enteredMethod);
           }
           virtualMachine.resume();
@@ -106,7 +121,9 @@ public class Debugger {
                 System.out.println("Virtual Machine is disconnected.");
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        } catch (AbsentInformationException e) {
+        e.printStackTrace();
+    }
     }
 
     public HashMap<String, String> getMethodSounds() {
@@ -148,7 +165,7 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger(new MercuryLake());
+        Debugger debugger = new Debugger(new Band());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
@@ -168,10 +185,11 @@ public class Debugger {
             System.out.println(method);
             if (method.contains("Main.main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 4000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 4000L);
+                System.out.println(debugger.getMethodSounds().get(method));   
+                player.playAndDelay(debugger.getMethodSounds().get(method), 1000L);
             }
         }
     }

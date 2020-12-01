@@ -6,14 +6,14 @@ import java.util.Map;
 public class Band implements Instruments {
 
     private HashMap<String, String> getPiano() {
-        return new HashMap<String, String>(Map.of("C", "ScreamLead_C1.aif",
-                "D", "ScreamLead_D1.aif",
-                "E", "ScreamLead_E1.aif",
-                "F", "ScreamLead_F1.aif",
-                "G", "ScreamLead_G1.aif",
-                "A", "ScreamLead_A1.aif",
-                "H", "ScreamLead_H1.aif",
-                "C2", "ScreamLead_C2.aif"));
+        return new HashMap<String, String>(Map.of("C", "C1_Piano.aif",
+                "D", "D1_Piano.aif",
+                "E", "E1_Piano.aif",
+                "F", "F1_Piano.aif",
+                "G", "G1_Piano.aif",
+                "A", "A1_Piano.aif",
+                "H", "H1_Piano.aif",
+                "C2", "C2_Piano.aif"));
     }
 
     private HashMap<String, String> getGuitar() {
@@ -38,11 +38,11 @@ public class Band implements Instruments {
 
     @Override
     public ArrayList<HashMap<String, String>> getInstruments() {
-        return new ArrayList<>(List.of(getGuitar(), getPiano(), getDrums()));
+        return new ArrayList<>(List.of(getPiano(), getGuitar(), getDrums()));
     }
 
     @Override
     public String getMainMethodSound() {
-        return "ChopperRiser.aif";
+        return "FG1_Piano.aif";
     }
 }
