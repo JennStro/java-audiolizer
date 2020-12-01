@@ -10,7 +10,7 @@ public class Band implements Instruments {
                 "E", "ScreamLead_E1.aif",
                 "F", "ScreamLead_F1.aif",
                 "G", "ScreamLead_G1.aif",
-                "A", "ScreamLead_A1.aif"
+                "A", "ScreamLead_A1.aif",
                 "H", "ScreamLead_H1.aif",
                 "C2", "ScreamLead_C2.aif"));
     }
@@ -22,7 +22,7 @@ public class Band implements Instruments {
                 "E", "ScreamLead_E1.aif",
                 "F", "ScreamLead_F1.aif",
                 "G", "ScreamLead_G1.aif",
-                "A", "ScreamLead_A1.aif"
+                "A", "ScreamLead_A1.aif",
                 "H", "ScreamLead_H1.aif",
                 "C2", "ScreamLead_C2.aif"));
     }
