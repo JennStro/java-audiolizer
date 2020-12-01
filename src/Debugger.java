@@ -135,6 +135,7 @@ public class Debugger {
                     noteNumber = (noteNumber + 1) % notes.size();
                 }
             }
+
             instrument = (instrument+1) % this.instruments.getInstruments().size();
         }
     }

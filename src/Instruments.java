@@ -17,6 +17,12 @@ public interface Instruments {
 
     /**
      *
+     * @return the map containing notes and path to file of drum sound. <"C", "path/to/intrument/C/note">
+     */
+    public HashMap<String, String> getDrums();
+
+    /**
+     *
      * @return a list of all instruments
      */
     public ArrayList<HashMap<String, String>> getInstruments();
