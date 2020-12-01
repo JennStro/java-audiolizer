@@ -19,14 +19,14 @@ public class Band implements Instruments {
 
     @Override
     public HashMap<String, String> getGuitar() {
-        return new HashMap<String, String>(Map.of("C", "ScreamLead_C1.aif",
-                "D", "ScreamLead_D1.aif",
-                "E", "ScreamLead_E1.aif",
-                "F", "ScreamLead_F1.aif",
-                "G", "ScreamLead_G1.aif",
-                "A", "ScreamLead_A1.aif",
-                "H", "ScreamLead_H1.aif",
-                "C2", "ScreamLead_C2.aif"));
+        return new HashMap<String, String>(Map.of("C", "C1_ClassicClean.aif",
+                "D", "D1_ClassicClean.aif",
+                "E", "E1_ClassicClean.aif",
+                "F", "F1_ClassicClean.aif",
+                "G", "G1_ClassicClean.aif",
+                "A", "A1_ClassicClean.aif",
+                "H", "H1_ClassicClean.aif",
+                "C2", "C2_ClassicClean.aif"));
     }
 
     @Override
