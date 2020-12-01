@@ -121,17 +121,20 @@ public class Debugger {
         for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
             ArrayList<String> methods = clazz.getValue();
 
-            HashMap<String, String> instr = this.instruments.getInstruments()[instrument];
+            HashMap<String, String> instrumentToPlay = this.instruments.getInstruments().get(instrument);
+            ArrayList<String> notes = this.instruments.getNotes(instrumentToPlay);
+            int noteNumber = 0;
 
             for (String method : methods) {
                 if (method.contains("main")) {
                     methodSounds.put(method, "resources/Drums_main.aif");
                 } else {
-
-                    methodSounds.put(method, "resources/" + screamNotes.get(sound));
+                    String note = notes.get(noteNumber);
+                    methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
+                    noteNumber = (noteNumber + 1) % notes.size();
                 }
-                sound = ((sound + 1) % screamNotes.size());
             }
+            instrument = (instrument+1) % this.instruments.getInstruments().size();
         }
     }
 

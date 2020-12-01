@@ -19,7 +19,7 @@ public interface Instruments {
      *
      * @return a list of all instruments
      */
-    public HashMap<String, String>[] getInstruments();
+    public ArrayList<HashMap<String, String>> getInstruments();
 
     /**
      *
