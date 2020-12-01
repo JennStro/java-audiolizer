@@ -16,9 +16,18 @@ public class MercuryLake implements Instruments {
                 "1", "C2_MercuryLake.aif"));
     }
 
+    private HashMap<String, String> getDrums() {
+        return new HashMap<String, String>(Map.of("C", "C1_SoCal.aif",
+                "D", "D1_SoCal.aif",
+                "E", "E1_SoCal.aif",
+                "H", "H1_SoCal.aif",
+                "C2", "C2_SoCal.aif",
+                "D2", "D2_SoCal.aif"));
+    }
+
     @Override
     public ArrayList<HashMap<String, String>> getInstruments() {
-        return new ArrayList<>(List.of(getInstrument()));
+        return new ArrayList<>(List.of(getInstrument(), getDrums()));
     }
 
     @Override
