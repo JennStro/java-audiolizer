@@ -8,24 +8,17 @@ import java.util.*;
 
 public class Debugger {
 
+    private final Instruments instruments;
     private Class debugee;
     private HashMap<String, String> methodSounds;
-    private ArrayList<String> methods;
-    // Not actual scream, this is just what the instrument was called in GarageBand :)
-    private ArrayList<String> screamNotes;
+    private ArrayList<String> methodsInExecutionOrder;
+    private HashMap<String, ArrayList<String>> classes;
 
-    public Debugger() {
-        this.methods = new ArrayList<>();
+    public Debugger(Instruments intruments) {
+        this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
-        this.screamNotes = new ArrayList<>(List.of(
-               "ScreamLead_C1.aif",
-                "ScreamLead_D1.aif",
-                "ScreamLead_E1.aif",
-                "ScreamLead_F1.aif",
-                "ScreamLead_G1.aif",
-                "ScreamLead_A1.aif",
-                "ScreamLead_H1.aif",
-                "ScreamLead_C2.aif"));
+        this.methodsInExecutionOrder = new ArrayList<>();
+        this.instruments = intruments;
     }
 
     public void setDebugee(Class debugee) {
@@ -61,7 +54,38 @@ public class Debugger {
         methodEntryRequest.enable();
     }
 
-    public void registerMethods(VirtualMachine virtualMachine) {
+    /**
+     *
+     * @param method
+     * @return the class that is calling this method
+     */
+    private String callingClass(Method method) {
+        return method.toString().split("[.]")[0];
+    }
+
+    /**
+     * Extract the class name that this method is called by and store both
+     * class name and method name.
+     * @param method
+     */
+    private void addMethod(Method method) {
+        String callingClass = callingClass(method);
+        String methodName = method.name();
+
+        if (!classes.containsKey(callingClass)) {
+            ArrayList<String> classMethods = new ArrayList<>();
+            classMethods.add(methodName);
+            classes.put(callingClass, classMethods);
+        } else {
+            classes.get(callingClass).add(methodName);
+        }
+    }
+
+    public HashMap<String, ArrayList<String>> getClasses() {
+        return this.classes;
+    }
+
+    public void registerClassesAndMethods(VirtualMachine virtualMachine) {
         EventSet events;
     try {
       while ((events = virtualMachine.eventQueue().remove()) != null) {
@@ -72,7 +96,8 @@ public class Debugger {
 
           if (event instanceof MethodEntryEvent) {
             Method enteredMethod = ((MethodEntryEvent) event).method();
-            this.methods.add(enteredMethod.name());
+            methodsInExecutionOrder.add(enteredMethod.name());
+            addMethod(enteredMethod);
           }
           virtualMachine.resume();
         }
@@ -89,24 +114,38 @@ public class Debugger {
         return this.methodSounds;
     }
 
-    public ArrayList<String> getMethods() {
-        return this.methods;
-    }
 
    public void assignNotesToMethods() {
-        int sound = 0;
-        for (String method : getMethods()) {
-            if (method.contains("main")) {
-                methodSounds.put(method, "resources/Drums_main.aif");
-            } else {
-                methodSounds.put(method, "resources/"+screamNotes.get(sound));
+        int instrument = 0;
+
+        for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
+
+            ArrayList<String> methods = clazz.getValue();
+
+            HashMap<String, String> instrumentToPlay = this.instruments.getInstruments().get(instrument);
+            ArrayList<String> notes = this.instruments.getNotes(instrumentToPlay);
+            int noteNumber = 0;
+
+            for (String method : methods) {
+                if (method.contains("main")) {
+                    methodSounds.put(method, "resources/" + this.instruments.getMainMethodSound());
+                } else {
+                    String note = notes.get(noteNumber);
+                    methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
+                    noteNumber = (noteNumber + 1) % notes.size();
+                }
             }
-            sound = ((sound+1) % screamNotes.size());
+
+            instrument = (instrument+1) % this.instruments.getInstruments().size();
         }
     }
 
+    public ArrayList<String> getMethodsInExecutionOrder() {
+        return methodsInExecutionOrder;
+    }
+
     public static void main(String[] args) {
-        Debugger debugger = new Debugger();
+        Debugger debugger = new Debugger(new Band());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
@@ -114,22 +153,22 @@ public class Debugger {
             virtualMachine = debugger.connectAndLaunchVirtualMachine();
             debugger.listenToMethodEntryEvents(virtualMachine);
             virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
-            debugger.registerMethods(virtualMachine);
+            debugger.registerClassesAndMethods(virtualMachine);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ArrayList<String> methods = debugger.getMethods();
+        ArrayList<String> methods = debugger.getMethodsInExecutionOrder();
         debugger.assignNotesToMethods();
 
         for (String method : methods) {
             System.out.println(method);
             if (method.contains("main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 200L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelayThenStop(debugger.getMethodSounds().get(method), 500L, 1000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 200L);
             }
         }
     }
