@@ -70,14 +70,13 @@ public class Debugger {
      */
     private void addMethod(Method method) {
         String callingClass = callingClass(method);
-        String methodName = method.name();
 
         if (!classes.containsKey(callingClass)) {
             ArrayList<String> classMethods = new ArrayList<>();
-            classMethods.add(methodName);
+            classMethods.add(method.toString());
             classes.put(callingClass, classMethods);
         } else {
-            classes.get(callingClass).add(methodName);
+            classes.get(callingClass).add(method.toString());
         }
     }
 
@@ -96,7 +95,7 @@ public class Debugger {
 
           if (event instanceof MethodEntryEvent) {
             Method enteredMethod = ((MethodEntryEvent) event).method();
-            methodsInExecutionOrder.add(enteredMethod.name());
+            methodsInExecutionOrder.add(enteredMethod.toString());
             addMethod(enteredMethod);
           }
           virtualMachine.resume();
@@ -118,6 +117,8 @@ public class Debugger {
    public void assignNotesToMethods() {
         int instrument = 0;
 
+       System.out.println(getClasses());
+
         for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
 
             ArrayList<String> methods = clazz.getValue();
@@ -127,8 +128,10 @@ public class Debugger {
             int noteNumber = 0;
 
             for (String method : methods) {
-                if (method.contains("main")) {
+                if (method.contains("Main.main")) {
                     methodSounds.put(method, "resources/" + this.instruments.getMainMethodSound());
+                    // Do not use an instrument for the main class.
+                    instrument = instrument - 1;
                 } else {
                     String note = notes.get(noteNumber);
                     methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
@@ -163,12 +166,12 @@ public class Debugger {
 
         for (String method : methods) {
             System.out.println(method);
-            if (method.contains("main")) {
+            if (method.contains("Main.main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 200L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 2000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 200L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 400L);
             }
         }
     }
