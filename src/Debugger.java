@@ -165,7 +165,7 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger(new Band());
+        Debugger debugger = new Debugger(new WaveSpace());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
@@ -185,11 +185,11 @@ public class Debugger {
             System.out.println(method);
             if (method.contains("Main.main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 2500L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 5000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
                 System.out.println(debugger.getMethodSounds().get(method));   
-                player.playAndDelay(debugger.getMethodSounds().get(method), 1000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 5000L);
             }
         }
     }
