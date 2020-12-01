@@ -7,6 +7,9 @@ public class Main {
 
         Test2 test2 = new Test2();
         test2.helloWorld();
+
+        Test3 test3 = new Test3();
+
         test2.helloWorld();
         test2.helloWorldAgain();
 

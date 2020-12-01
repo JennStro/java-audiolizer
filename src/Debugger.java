@@ -118,6 +118,8 @@ public class Debugger {
    public void assignNotesToMethods() {
         int instrument = 0;
 
+       System.out.println(getClasses());
+
         for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
 
             ArrayList<String> methods = clazz.getValue();
@@ -127,8 +129,10 @@ public class Debugger {
             int noteNumber = 0;
 
             for (String method : methods) {
-                if (method.contains("main")) {
+                if (method.equals("main")) {
                     methodSounds.put(method, "resources/" + this.instruments.getMainMethodSound());
+                    // Do not use an instrument for the main class.
+                    instrument = instrument - 1;
                 } else {
                     String note = notes.get(noteNumber);
                     methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
@@ -163,12 +167,12 @@ public class Debugger {
 
         for (String method : methods) {
             System.out.println(method);
-            if (method.contains("main")) {
+            if (method.equals("main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 200L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 2000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 200L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 2000L);
             }
         }
     }
