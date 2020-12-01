@@ -31,12 +31,17 @@ public class Band implements Instruments {
 
     @Override
     public HashMap<String, String> getDrums() {
-        return null;
+        return new HashMap<String, String>(Map.of("C", "C1_SoCal.aif",
+                "D", "D1_SoCal.aif",
+                "E", "E1_SoCal.aif",
+                "H", "H1_SoCal.aif",
+                "C2", "C2_SoCal.aif",
+                "D2", "D2_SoCal.aif"));
     }
 
     @Override
     public ArrayList<HashMap<String, String>> getInstruments() {
-        return new ArrayList<>(List.of(getGuitar(), getPiano()));
+        return new ArrayList<>(List.of(getGuitar(), getPiano(), getDrums()));
     }
 
     @Override
