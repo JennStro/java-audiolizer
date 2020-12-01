@@ -55,6 +55,6 @@ public class Band implements Instruments {
 
     @Override
     public String getMainMethodSound() {
-        return "Drums_main.aif";
+        return "ChopperRiser.aif";
     }
 }
