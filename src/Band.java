@@ -42,15 +42,6 @@ public class Band implements Instruments {
     }
 
     @Override
-    public ArrayList<String> getNotes(HashMap<String, String> instrument) {
-        ArrayList<String> notes = new ArrayList<>();
-        for (String note : instrument.keySet()) {
-            notes.add(note);
-        }
-        return notes;
-    }
-
-    @Override
     public String getMainMethodSound() {
         return "ChopperRiser.aif";
     }

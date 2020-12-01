@@ -14,11 +14,16 @@ public interface Instruments {
     ArrayList<HashMap<String, String>> getInstruments();
 
     /**
-     *
      * @param instrument
      * @return the notes that this instrument in playing
      */
-    ArrayList<String> getNotes(HashMap<String, String> instrument);
+    default ArrayList<String> getNotes(HashMap<String, String> instrument) {
+        ArrayList<String> notes = new ArrayList<>();
+        for (String note : instrument.keySet()) {
+            notes.add(note);
+        }
+        return notes;
+    }
 
     /**
      *
