@@ -128,7 +128,7 @@ public class Debugger {
             int noteNumber = 0;
 
             for (String method : methods) {
-                if (method.equals("main")) {
+                if (method.contains("Main.main")) {
                     methodSounds.put(method, "resources/" + this.instruments.getMainMethodSound());
                     // Do not use an instrument for the main class.
                     instrument = instrument - 1;
@@ -166,12 +166,12 @@ public class Debugger {
 
         for (String method : methods) {
             System.out.println(method);
-            if (method.equals("main")) {
+            if (method.contains("Main.main")) {
                 AudioPlayer player = new AudioPlayer();
                 player.playAndDelay(debugger.getMethodSounds().get(method), 2000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 2000L);
+                player.playAndDelay(debugger.getMethodSounds().get(method), 400L);
             }
         }
     }
