@@ -70,14 +70,13 @@ public class Debugger {
      */
     private void addMethod(Method method) {
         String callingClass = callingClass(method);
-        String methodName = method.name();
 
         if (!classes.containsKey(callingClass)) {
             ArrayList<String> classMethods = new ArrayList<>();
-            classMethods.add(methodName);
+            classMethods.add(method.toString());
             classes.put(callingClass, classMethods);
         } else {
-            classes.get(callingClass).add(methodName);
+            classes.get(callingClass).add(method.toString());
         }
     }
 
@@ -96,7 +95,7 @@ public class Debugger {
 
           if (event instanceof MethodEntryEvent) {
             Method enteredMethod = ((MethodEntryEvent) event).method();
-            methodsInExecutionOrder.add(enteredMethod.name());
+            methodsInExecutionOrder.add(enteredMethod.toString());
             addMethod(enteredMethod);
           }
           virtualMachine.resume();
