@@ -134,7 +134,7 @@ public class Debugger {
    public void assignNotesToMethods() {
         int instrument = 0;
 
-       System.out.println(getClasses());
+        System.out.println(getClasses());
 
         for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
 
@@ -149,6 +149,8 @@ public class Debugger {
                     methodSounds.put(method, "resources/" + this.instruments.getMainMethodSound());
                     // Do not use an instrument for the main class.
                     instrument = instrument - 1;
+                } else if (method.contains("Test1.hello")) {
+                    methodSounds.put(method, "resources/trommer.aif");
                 } else {
                     String note = notes.get(noteNumber);
                     methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
@@ -165,7 +167,7 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger(new MercuryLake());
+        Debugger debugger = new Debugger(new Band());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
@@ -180,17 +182,36 @@ public class Debugger {
 
         ArrayList<String> methods = debugger.getMethodsInExecutionOrder();
         debugger.assignNotesToMethods();
-
+        // 2795 BPmS
+        // 349 is more like it
         for (String method : methods) {
             System.out.println(method);
-            if (method.contains("Main.main")) {
-                AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 5000L);
+            if (method.contains("Test1.hello")) {
+                Runnable runnable =
+                        () -> {
+                            while (true) {
+                                AudioPlayer player = new AudioPlayer();
+                                System.out.println(debugger.getMethodSounds().get(method));
+                                player.play(debugger.getMethodSounds().get(method));
+                                try {
+                                    Thread.sleep(player.getLengthOfClip());
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                Thread thread = new Thread(runnable);
+                thread.start();
             } else {
                 AudioPlayer player = new AudioPlayer();
-                System.out.println(debugger.getMethodSounds().get(method));   
-                player.playAndDelay(debugger.getMethodSounds().get(method), 5000L);
+                System.out.println(debugger.getMethodSounds().get(method));
+                player.playAndDelay(debugger.getMethodSounds().get(method), 698L);
             }
+        }
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -4,9 +4,9 @@ public class Main {
 
         Test1 test1 = new Test1();
         test1.hello();
-
         Test2 test2 = new Test2();
 
+        test1.lydMannen();
 
         test2.reallyShortMethod();
 
@@ -17,12 +17,27 @@ public class Main {
         Test3 test3 = new Test3();
 
         test2.helloWorld();
-        test2.helloWorldAgain();
-
-        test1.hello();
 
         test2.reallyLongMethod();
+
         test2.reallyShortMethod();
+
+        test1.lydMannen();
+
+        test2.reallyShortMethod();
+
+        test2.reallyLongMethod();
+
+
+        test2.helloWorld();
+
+        test2.helloWorld();
+
+
+        test2.reallyLongMethod();
+
+        test2.reallyShortMethod();
+
 
     }
 }

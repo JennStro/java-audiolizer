@@ -14,7 +14,9 @@ public class WaveSpace implements Instruments {
                 "G", "G1_WaveSpace.aif",
                 "A", "A1_WaveSpace.aif",
                 "H", "H1_WaveSpace.aif",
-                "C2", "C2_WaveSpace.aif"));
+                "C2", "C2_WaveSpace.aif",
+                "Drum", "trommer.aif"));
+
     }
 
     @Override
