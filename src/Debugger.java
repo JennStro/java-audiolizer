@@ -165,7 +165,7 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger(new WaveSpace());
+        Debugger debugger = new Debugger(new MercuryLake());
         debugger.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
