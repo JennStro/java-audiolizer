@@ -12,7 +12,7 @@ public class MercuryLake implements Instruments {
                 "F", "F1_MercuryLake.aif",
                 "G", "G1_MercuryLake.aif",
                 "A", "A_MercuryLake.aif",
-                "H", "H1_MercuryLake.aif",
+                "H", "H1_Mercury_Lake.aif",
                 "1", "C2_MercuryLake.aif"));
     }
 
