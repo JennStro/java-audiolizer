@@ -4,15 +4,15 @@ import java.util.List;
 public class WaveSpace implements Instruments {
 
     private Instrument getWave() {
-        return new Instrument().addNote("C", "C1_WaveSpace.aif")
-                .addNote("C#", "C#1_WaveSpace.aif")
-                .addNote("D", "D1_WaveSpace.aif")
-                .addNote("E", "E1_WaveSpace.aif")
-                .addNote("F", "F1_WaveSpace.aif")
-                .addNote("G", "G1_WaveSpace.aif")
-                .addNote("A", "A1_WaveSpace.aif")
-                .addNote("H", "H1_WaveSpace.aif")
-                .addNote("C2", "C2_WaveSpace.aif");
+        return new Instrument().addNote("C", "resources/C1_WaveSpace.aif")
+                .addNote("C#", "resources/C#1_WaveSpace.aif")
+                .addNote("D", "resources/D1_WaveSpace.aif")
+                .addNote("E", "resources/E1_WaveSpace.aif")
+                .addNote("F", "resources/F1_WaveSpace.aif")
+                .addNote("G", "resources/G1_WaveSpace.aif")
+                .addNote("A", "resources/A1_WaveSpace.aif")
+                .addNote("H", "resources/H1_WaveSpace.aif")
+                .addNote("C2", "resources/C2_WaveSpace.aif");
     }
 
     @Override
@@ -22,6 +22,6 @@ public class WaveSpace implements Instruments {
 
     @Override
     public String getMainMethodSound() {
-        return "Main_WaveSpace.aif";
+        return "resources/Main_WaveSpace.aif";
     }
 }
