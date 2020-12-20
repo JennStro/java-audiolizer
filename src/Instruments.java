@@ -13,6 +13,11 @@ public interface Instruments {
     ArrayList<Instrument> getInstruments();
 
     /**
+     * The number of instruments
+     */
+    int numberOfInstruments();
+
+    /**
      *
      * @return path to file that will be played when program is started
      */

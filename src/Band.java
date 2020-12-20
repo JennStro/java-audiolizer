@@ -38,6 +38,11 @@ public class Band implements Instruments {
     }
 
     @Override
+    public int numberOfInstruments() {
+        return getInstruments().size();
+    }
+
+    @Override
     public String getMainMethodSound() {
         return "resources/FG1_Piano.aif";
     }

@@ -188,15 +188,16 @@ public class Audiolizer {
     }
 
     public Instrument getRandomInstrument() {
-        return this.instruments.getInstruments().get(new Random().nextInt(this.instruments.getInstruments().size()-1));
+        return this.instruments.getInstruments().get(new Random().nextInt(this.instruments.numberOfInstruments()));
     }
 
     public String getRandomSoundFile() {
-        return getRandomInstrument().getRandomSoundFile();
-    }
-
-    public ArrayList<String> getMethodsInExecutionOrder() {
-        return methodsInExecutionOrder;
+        try {
+            return getRandomInstrument().getRandomSoundFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -208,7 +209,7 @@ public class Audiolizer {
     }
 
     public static void main(String[] args) {
-        Audiolizer audiolizer = new Audiolizer(new Band(), Main.class);
+        Audiolizer audiolizer = new Audiolizer(new WaveSpace(), Main.class);
         audiolizer.setSpeed(1000L);
         audiolizer.playMusic();
 

@@ -21,6 +21,11 @@ public class WaveSpace implements Instruments {
     }
 
     @Override
+    public int numberOfInstruments() {
+        return getInstruments().size();
+    }
+
+    @Override
     public String getMainMethodSound() {
         return "resources/Main_WaveSpace.aif";
     }
