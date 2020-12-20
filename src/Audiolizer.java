@@ -1,12 +1,17 @@
 import com.sun.jdi.*;
 import com.sun.jdi.connect.Connector;
+import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.LaunchingConnector;
+import com.sun.jdi.connect.VMStartException;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.MethodEntryRequest;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Audiolizer {
+
+    private VirtualMachine virtualMachine;
 
     private final Instruments instruments;
     private Class debugee;
@@ -21,6 +26,8 @@ public class Audiolizer {
         this.lengthOfMethod = new HashMap<>();
         this.methodsInExecutionOrder = new ArrayList<>();
         this.instruments = intruments;
+
+        this.virtualMachine = connectAndLaunchVirtualMachine();
     }
 
     public void setDebugee(Class debugee) {
@@ -31,14 +38,17 @@ public class Audiolizer {
      * Create connector and give it the debuggee's main class, connect this debugger to the VM and launch the VM.
      *
      * @return Virtual Machine for debugging
-     * @throws Exception
      */
-    public VirtualMachine connectAndLaunchVirtualMachine() throws Exception {
+    public VirtualMachine connectAndLaunchVirtualMachine() {
         LaunchingConnector launchingConnector = Bootstrap.virtualMachineManager().defaultConnector();
         Map<String, Connector.Argument> connectorArguments = launchingConnector.defaultArguments();
         connectorArguments.get("main").setValue(debugee.getName());
         connectorArguments.get("options").setValue("-cp " + System.getProperty("java.class.path"));
-        return launchingConnector.launch(connectorArguments);
+        try {
+            return launchingConnector.launch(connectorArguments);
+        } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -182,6 +192,7 @@ public class Audiolizer {
         try {
             virtualMachine = audiolizer.connectAndLaunchVirtualMachine();
             audiolizer.listenToMethodEntryEvents(virtualMachine);
+            audiolizer.listenToExceptionEvents(virtualMachine);
             //audiolizer.registerClassesAndMethods(virtualMachine);
 
             EventSet events;
