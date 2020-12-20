@@ -3,15 +3,12 @@ import java.util.List;
 
 public class Band implements Instruments {
 
-    public Instrument getPiano() {
+    private Instrument getPiano() {
         return new Instrument().addNote("C", "resources/C1_Piano.aif")
                 .addNote("D", "resources/D1_Piano.aif")
                 .addNote("E", "resources/E1_Piano.aif")
-                .addNote("F", "resources/F1_Piano.aif")
                 .addNote("G", "resources/G1_Piano.aif")
-                .addNote("A", "resources/A1_Piano.aif")
-                .addNote("H", "resources/H1_Piano.aif")
-                .addNote("C2", "resources/C2_Piano.aif");
+                .addNote("A", "resources/A1_Piano.aif");
     }
 
     private Instrument getGuitar() {

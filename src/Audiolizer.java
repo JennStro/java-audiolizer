@@ -210,19 +210,7 @@ public class Audiolizer {
     public static void main(String[] args) {
         Audiolizer audiolizer = new Audiolizer(new Band(), Main.class);
         audiolizer.setSpeed(1000L);
-        //audiolizer.playMusic();
-
-        AudioPlayer player = new AudioPlayer();
-
-        for (String note : new Band().getPiano().getSoundFiles()) {
-            System.out.println(note);
-            player.play(note);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        audiolizer.playMusic();
 
 
         try {
