@@ -140,7 +140,7 @@ public class Audiolizer {
 
     public static void main(String[] args) {
         Audiolizer audiolizer = new Audiolizer(new Band(), Main.class);
-        audiolizer.setSpeed(500L);
+        audiolizer.setSpeed(1000L);
         audiolizer.playMusic();
         while (audiolizer.isPlaying()) {
             try {
