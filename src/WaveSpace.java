@@ -4,15 +4,15 @@ import java.util.List;
 public class WaveSpace implements Instruments {
 
     private Instrument getWave() {
-        return new Instrument().addNote("C", "resources/C1_WaveSpace.aif")
-                .addNote("C#", "resources/C#1_WaveSpace.aif")
-                .addNote("D", "resources/D1_WaveSpace.aif")
-                .addNote("E", "resources/E1_WaveSpace.aif")
-                .addNote("F", "resources/F1_WaveSpace.aif")
-                .addNote("G", "resources/G1_WaveSpace.aif")
-                .addNote("A", "resources/A1_WaveSpace.aif")
-                .addNote("H", "resources/H1_WaveSpace.aif")
-                .addNote("C2", "resources/C2_WaveSpace.aif");
+        return new Instrument().addNote("C", "resources/Effects/C1_WaveSpace.aif")
+                .addNote("C#", "resources/Effects/C#1_WaveSpace.aif")
+                .addNote("D", "resources/Effects/D1_WaveSpace.aif")
+                .addNote("E", "resources/Effects/E1_WaveSpace.aif")
+                .addNote("F", "resources/Effects/F1_WaveSpace.aif")
+                .addNote("G", "resources/Effects/G1_WaveSpace.aif")
+                .addNote("A", "resources/Effects/A1_WaveSpace.aif")
+                .addNote("H", "resources/Effects/H1_WaveSpace.aif")
+                .addNote("C2", "resources/Effects/C2_WaveSpace.aif");
     }
 
     @Override
