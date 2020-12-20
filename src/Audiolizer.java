@@ -23,6 +23,8 @@ public class Audiolizer {
     private final HashMap<String, ArrayList<String>> classes;
     private Long delayInMilliseconds = 1000L;
 
+    private AudioPlayer player;
+
     public Audiolizer(Instruments intruments, Class<Main> debugee) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
@@ -66,7 +68,7 @@ public class Audiolizer {
                     }
 
                     if (event instanceof MethodEntryEvent) {
-                        AudioPlayer player = new AudioPlayer();
+                        this.player = new AudioPlayer();
                         String methodName = ((MethodEntryEvent) event).method().toString();
 
                         if (mappedSounds.containsKey(methodName)) {
@@ -109,84 +111,6 @@ public class Audiolizer {
         virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
     }
 
-    /**
-     *
-     * @param method
-     * @return the class that is calling this method
-     */
-    private String callingClass(Method method) {
-        return method.toString().split("[.]")[0];
-    }
-
-    /**
-     * Extract the class name that this method is called by and store both
-     * class name and method name.
-     * @param method
-     */
-    private void addMethod(Method method) throws AbsentInformationException {
-        methodsInExecutionOrder.add(method.toString());
-
-        String callingClass = callingClass(method);
-
-        int minimum_length_of_method = 1;
-        if (!classes.containsKey(callingClass)) {
-            ArrayList<String> classMethods = new ArrayList<>();
-            classMethods.add(method.toString());
-            classes.put(callingClass, classMethods);
-
-            int numberOfLinesInMethod = method.allLineLocations().size();
-            lengthOfMethod.put(method.toString(), numberOfLinesInMethod + minimum_length_of_method);
-        } else {
-            classes.get(callingClass).add(method.toString());
-
-            int numberOfLinesInMethod = method.allLineLocations().size();
-            lengthOfMethod.put(method.toString(), numberOfLinesInMethod + minimum_length_of_method);
-        }
-    }
-
-    public int getLengthOfMethod(String methodName) {
-        System.out.println(lengthOfMethod);
-        return lengthOfMethod.get(methodName);
-    }
-
-    public HashMap<String, ArrayList<String>> getClasses() {
-        return this.classes;
-    }
-
-    public HashMap<String, String> getMethodSounds() {
-        return this.methodSounds;
-    }
-
-
-   public void assignNotesToMethods() {
-        int instrument = 0;
-
-       System.out.println(getClasses());
-
-        for (Map.Entry<String, ArrayList<String>> clazz : getClasses().entrySet()) {
-
-            ArrayList<String> methods = clazz.getValue();
-
-            Instrument instrumentToPlay = this.instruments.getInstruments().get(instrument);
-            ArrayList<String> notes = instrumentToPlay.getNoteCharacters();
-            int noteNumber = 0;
-
-            for (String method : methods) {
-                if (method.contains("Main.main")) {
-                    methodSounds.put(method, "resources/" + this.instruments.getMainMethodSound());
-                    // Do not use an instrument for the main class.
-                    instrument = instrument - 1;
-                } else {
-                    String note = notes.get(noteNumber);
-                    methodSounds.put(method, "resources/" + instrumentToPlay.getSoundFile(note));
-                    noteNumber = (noteNumber + 1) % notes.size();
-                }
-            }
-
-            instrument = (instrument+1) % this.instruments.getInstruments().size();
-        }
-    }
-
     public Instrument getRandomInstrument() {
         return this.instruments.getInstruments().get(new Random().nextInt(this.instruments.numberOfInstruments()));
     }
@@ -208,17 +132,22 @@ public class Audiolizer {
         this.delayInMilliseconds = delayInMilliseconds;
     }
 
+    public boolean isPlaying() {
+        return player.isPlaying();
+    }
+
     public static void main(String[] args) {
-        Audiolizer audiolizer = new Audiolizer(new WaveSpace(), Main.class);
-        audiolizer.setSpeed(1000L);
+        Audiolizer audiolizer = new Audiolizer(new Band(), Main.class);
+        audiolizer.setSpeed(500L);
         audiolizer.playMusic();
-
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (audiolizer.isPlaying()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 }
