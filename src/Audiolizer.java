@@ -49,6 +49,7 @@ public class Audiolizer {
         } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -56,9 +57,8 @@ public class Audiolizer {
      *
      * @see <a href="https://docs.oracle.com/javase/8/docs/jdk/api/jpda/jdi/com/sun/jdi/event/MethodEntryEvent.html">MethodEntryEvent</a>
      *
-     * @param virtualMachine
      */
-    public void listenToMethodEntryEvents(VirtualMachine virtualMachine) {
+    public void listenToMethodEntryEvents() {
         MethodEntryRequest methodEntryRequest = virtualMachine.eventRequestManager().createMethodEntryRequest();
         methodEntryRequest.addClassExclusionFilter("java.*");
         methodEntryRequest.addClassExclusionFilter("jdk.*");
@@ -66,7 +66,7 @@ public class Audiolizer {
         methodEntryRequest.enable();
     }
 
-    public void listenToExceptionEvents(VirtualMachine virtualMachine) {
+    public void listenToExceptionEvents() {
         virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
     }
 
