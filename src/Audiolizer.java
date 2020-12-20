@@ -20,18 +20,15 @@ public class Audiolizer {
     private final ArrayList<String> methodsInExecutionOrder;
     private final HashMap<String, ArrayList<String>> classes;
 
-    public Audiolizer(Instruments intruments) {
+    public Audiolizer(Instruments intruments, Class<Main> debugee) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
         this.lengthOfMethod = new HashMap<>();
         this.methodsInExecutionOrder = new ArrayList<>();
         this.instruments = intruments;
+        this.debugee = debugee;
 
         this.virtualMachine = connectAndLaunchVirtualMachine();
-    }
-
-    public void setDebugee(Class debugee) {
-        this.debugee = debugee;
     }
 
     /**
@@ -51,6 +48,8 @@ public class Audiolizer {
         }
         return null;
     }
+
+    public void
 
     /**
      * Enable methodEntryRequest to get notified when a method is entried  in the debugee class.
@@ -185,14 +184,11 @@ public class Audiolizer {
     }
 
     public static void main(String[] args) {
-        Audiolizer audiolizer = new Audiolizer(new MercuryLake());
-        audiolizer.setDebugee(Main.class);
+        Audiolizer audiolizer = new Audiolizer(new MercuryLake(), Main.class);
 
         VirtualMachine virtualMachine;
         try {
             virtualMachine = audiolizer.connectAndLaunchVirtualMachine();
-            audiolizer.listenToMethodEntryEvents(virtualMachine);
-            audiolizer.listenToExceptionEvents(virtualMachine);
             //audiolizer.registerClassesAndMethods(virtualMachine);
 
             EventSet events;
