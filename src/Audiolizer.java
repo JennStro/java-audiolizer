@@ -6,7 +6,7 @@ import com.sun.jdi.request.MethodEntryRequest;
 
 import java.util.*;
 
-public class Debugger {
+public class Audiolizer {
 
     private final Instruments instruments;
     private Class debugee;
@@ -16,7 +16,7 @@ public class Debugger {
     private HashMap<String, ArrayList<String>> classes;
     private final int minimum_length_of_method = 1;
 
-    public Debugger(Instruments intruments) {
+    public Audiolizer(Instruments intruments) {
         this.classes = new HashMap<>();
         this.methodSounds = new HashMap<>();
         this.lengthOfMethod = new HashMap<>();
@@ -165,31 +165,31 @@ public class Debugger {
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger(new MercuryLake());
-        debugger.setDebugee(Main.class);
+        Audiolizer audiolizer = new Audiolizer(new MercuryLake());
+        audiolizer.setDebugee(Main.class);
 
         VirtualMachine virtualMachine;
         try {
-            virtualMachine = debugger.connectAndLaunchVirtualMachine();
-            debugger.listenToMethodEntryEvents(virtualMachine);
+            virtualMachine = audiolizer.connectAndLaunchVirtualMachine();
+            audiolizer.listenToMethodEntryEvents(virtualMachine);
             virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
-            debugger.registerClassesAndMethods(virtualMachine);
+            audiolizer.registerClassesAndMethods(virtualMachine);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ArrayList<String> methods = debugger.getMethodsInExecutionOrder();
-        debugger.assignNotesToMethods();
+        ArrayList<String> methods = audiolizer.getMethodsInExecutionOrder();
+        audiolizer.assignNotesToMethods();
 
         for (String method : methods) {
             System.out.println(method);
             if (method.contains("Main.main")) {
                 AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(debugger.getMethodSounds().get(method), 5000L);
+                player.playAndDelay(audiolizer.getMethodSounds().get(method), 5000L);
             } else {
                 AudioPlayer player = new AudioPlayer();
-                System.out.println(debugger.getMethodSounds().get(method));   
-                player.playAndDelay(debugger.getMethodSounds().get(method), 5000L);
+                System.out.println(audiolizer.getMethodSounds().get(method));
+                player.playAndDelay(audiolizer.getMethodSounds().get(method), 5000L);
             }
         }
     }
