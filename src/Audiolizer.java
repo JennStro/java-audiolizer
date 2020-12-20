@@ -56,6 +56,10 @@ public class Audiolizer {
         methodEntryRequest.enable();
     }
 
+    public void listenToExceptionEvents(VirtualMachine virtualMachine) {
+        virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
+    }
+
     /**
      *
      * @param method
@@ -178,7 +182,6 @@ public class Audiolizer {
         try {
             virtualMachine = audiolizer.connectAndLaunchVirtualMachine();
             audiolizer.listenToMethodEntryEvents(virtualMachine);
-            virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
             //audiolizer.registerClassesAndMethods(virtualMachine);
 
             EventSet events;
