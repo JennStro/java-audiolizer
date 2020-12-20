@@ -7,6 +7,7 @@ import com.sun.jdi.event.*;
 import com.sun.jdi.request.MethodEntryRequest;
 
 import java.io.IOException;
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.*;
 
 public class Audiolizer {
@@ -20,6 +21,7 @@ public class Audiolizer {
     private final HashMap<String, Integer> lengthOfMethod;
     private final ArrayList<String> methodsInExecutionOrder;
     private final HashMap<String, ArrayList<String>> classes;
+    private Long delayInMilliseconds = 1000L;
 
     public Audiolizer(Instruments intruments, Class<Main> debugee) {
         this.classes = new HashMap<>();
@@ -69,13 +71,13 @@ public class Audiolizer {
 
                         if (mappedSounds.containsKey(methodName)) {
                             System.out.println(methodName + " " + mappedSounds.get(methodName));
-                            player.playAndDelay(mappedSounds.get(methodName), 5000L);
+                            player.playAndDelay(mappedSounds.get(methodName), delayInMilliseconds);
 
                         } else {
                             String randomSoundFile = getRandomSoundFile();
                             System.out.println(methodName + " " + randomSoundFile);
                             mappedSounds.put(methodName, randomSoundFile);
-                            player.playAndDelay(randomSoundFile, 5000L);
+                            player.playAndDelay(randomSoundFile, delayInMilliseconds);
                         }
                     }
                     virtualMachine.resume();
@@ -197,8 +199,37 @@ public class Audiolizer {
         return methodsInExecutionOrder;
     }
 
-    public static void main(String[] args) {
-        Audiolizer audiolizer = new Audiolizer(new MercuryLake(), Main.class);
-        audiolizer.playMusic();
+    /**
+     * How long each note should play in milliseconds.
+     * @param delayInMilliseconds
+     */
+    public void setSpeed(Long delayInMilliseconds) {
+        this.delayInMilliseconds = delayInMilliseconds;
     }
+
+    public static void main(String[] args) {
+        Audiolizer audiolizer = new Audiolizer(new Band(), Main.class);
+        audiolizer.setSpeed(1000L);
+        //audiolizer.playMusic();
+
+        AudioPlayer player = new AudioPlayer();
+
+        for (String note : new Band().getPiano().getSoundFiles()) {
+            System.out.println(note);
+            player.play(note);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Band implements Instruments {
 
-    private Instrument getPiano() {
+    public Instrument getPiano() {
         return new Instrument().addNote("C", "resources/C1_Piano.aif")
                 .addNote("D", "resources/D1_Piano.aif")
                 .addNote("E", "resources/E1_Piano.aif")

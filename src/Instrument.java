@@ -23,4 +23,8 @@ public class Instrument {
         return getSoundFile(getNoteCharacters().get(new Random().nextInt(getNoteCharacters().size()-1)));
     }
 
+    public ArrayList<String> getSoundFiles() {
+        return new ArrayList<>(instrument.values());
+    }
+
 }
