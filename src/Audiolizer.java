@@ -14,6 +14,7 @@ public class Audiolizer {
     private VirtualMachine virtualMachine;
 
     private final Instruments instruments;
+    private HashMap<String, String> mappedSounds;
     private Class debugee;
     private final HashMap<String, String> methodSounds;
     private final HashMap<String, Integer> lengthOfMethod;
@@ -27,6 +28,7 @@ public class Audiolizer {
         this.methodsInExecutionOrder = new ArrayList<>();
         this.instruments = intruments;
         this.debugee = debugee;
+        this.mappedSounds = new HashMap<>();
 
         this.virtualMachine = connectAndLaunchVirtualMachine();
     }
@@ -63,7 +65,15 @@ public class Audiolizer {
 
                     if (event instanceof MethodEntryEvent) {
                         AudioPlayer player = new AudioPlayer();
-                        player.playAndDelay(getRandomSoundFile(), 5000L);
+                        String methodName = event.toString();
+
+                        if (mappedSounds.containsKey(methodName)) {
+                            player.playAndDelay(mappedSounds.get(methodName), 5000L);
+                        } else {
+                            String randomSoundFile = getRandomSoundFile();
+                            mappedSounds.put(methodName, randomSoundFile);
+                            player.playAndDelay(randomSoundFile, 5000L);
+                        }
                     }
                     virtualMachine.resume();
                 }
