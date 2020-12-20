@@ -30,5 +30,5 @@ public class Test2 {
 
     }
 
-    public void reallyShortMethod(){};
+    public void reallyShortMethod(){}
 }

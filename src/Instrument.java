@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Instrument {
 
-    private HashMap<String, String> instrument = new HashMap<>();
+    private final HashMap<String, String> instrument = new HashMap<>();
 
     public Instrument addNote(String note, String soundFile) {
         instrument.put(note, soundFile);

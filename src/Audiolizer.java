@@ -10,10 +10,10 @@ public class Audiolizer {
 
     private final Instruments instruments;
     private Class debugee;
-    private HashMap<String, String> methodSounds;
-    private HashMap<String, Integer> lengthOfMethod;
-    private ArrayList<String> methodsInExecutionOrder;
-    private HashMap<String, ArrayList<String>> classes;
+    private final HashMap<String, String> methodSounds;
+    private final HashMap<String, Integer> lengthOfMethod;
+    private final ArrayList<String> methodsInExecutionOrder;
+    private final HashMap<String, ArrayList<String>> classes;
     private final int minimum_length_of_method = 1;
 
     public Audiolizer(Instruments intruments) {
