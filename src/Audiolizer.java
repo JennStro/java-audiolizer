@@ -5,6 +5,7 @@ import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.connect.VMStartException;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.MethodEntryRequest;
+import com.sun.nio.sctp.PeerAddressChangeNotification;
 
 import java.io.IOException;
 import java.lang.management.PlatformLoggingMXBean;
@@ -23,7 +24,7 @@ public class Audiolizer {
     private final HashMap<String, ArrayList<String>> classes;
     private Long delayInMilliseconds = 1000L;
 
-    private AudioPlayer player;
+    private AudioPlayer currentPlayer;
 
     public Audiolizer(Instruments intruments, Class<Main> debugee) {
         this.classes = new HashMap<>();
@@ -68,7 +69,8 @@ public class Audiolizer {
                     }
 
                     if (event instanceof MethodEntryEvent) {
-                        this.player = new AudioPlayer();
+                        AudioPlayer player = new AudioPlayer();
+                        this.currentPlayer = player;
                         String methodName = ((MethodEntryEvent) event).method().toString();
 
                         if (mappedSounds.containsKey(methodName)) {
@@ -133,7 +135,7 @@ public class Audiolizer {
     }
 
     public boolean isPlaying() {
-        return player.isPlaying();
+        return currentPlayer.isPlaying();
     }
 
     public static void main(String[] args) {
