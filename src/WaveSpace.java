@@ -5,20 +5,20 @@ import java.util.Map;
 
 public class WaveSpace implements Instruments {
 
-    private HashMap<String, String> getWave() {
-        return new HashMap<>(Map.of("C", "C1_WaveSpace.aif",
-                "C#", "C#1_WaveSpace.aif",
-                "D", "D1_WaveSpace.aif",
-                "E", "E1_WaveSpace.aif",
-                "F", "F1_WaveSpace.aif",
-                "G", "G1_WaveSpace.aif",
-                "A", "A1_WaveSpace.aif",
-                "H", "H1_WaveSpace.aif",
-                "C2", "C2_WaveSpace.aif"));
+    private Instrument getWave() {
+        return new Instrument().addNote("C", "C1_WaveSpace.aif")
+                .addNote("C#", "C#1_WaveSpace.aif")
+                .addNote("D", "D1_WaveSpace.aif")
+                .addNote("E", "E1_WaveSpace.aif")
+                .addNote("F", "F1_WaveSpace.aif")
+                .addNote("G", "G1_WaveSpace.aif")
+                .addNote("A", "A1_WaveSpace.aif")
+                .addNote("H", "H1_WaveSpace.aif")
+                .addNote("C2", "C2_WaveSpace.aif");
     }
 
     @Override
-    public ArrayList<HashMap<String, String>> getInstruments() {
+    public ArrayList<Instrument> getInstruments() {
         return new ArrayList<>(List.of(getWave()));
     }
 
