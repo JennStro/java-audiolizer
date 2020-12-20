@@ -49,7 +49,29 @@ public class Audiolizer {
         return null;
     }
 
-    public void
+    public void playMusic() {
+        listenToExceptionEvents();
+        listenToMethodEntryEvents();
+
+        EventSet events;
+        try {
+            while ((events = virtualMachine.eventQueue().remove()) != null) {
+                for (Event event : events) {
+                    if (event instanceof ExceptionEvent) {
+                        System.out.println(event.toString());
+                    }
+
+                    if (event instanceof MethodEntryEvent) {
+                        AudioPlayer player = new AudioPlayer();
+                        player.playAndDelay(getRandomSoundFile(), 5000L);
+                    }
+                    virtualMachine.resume();
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Enable methodEntryRequest to get notified when a method is entried  in the debugee class.
@@ -111,30 +133,6 @@ public class Audiolizer {
 
     public HashMap<String, ArrayList<String>> getClasses() {
         return this.classes;
-    }
-
-    public void registerClassesAndMethods(VirtualMachine virtualMachine) {
-        EventSet events;
-    try {
-      while ((events = virtualMachine.eventQueue().remove()) != null) {
-        for (Event event : events) {
-          if (event instanceof ExceptionEvent) {
-            System.out.println(event.toString());
-          }
-
-          if (event instanceof MethodEntryEvent) {
-            Method enteredMethod = ((MethodEntryEvent) event).method();
-            addMethod(enteredMethod);
-          }
-          virtualMachine.resume();
-        }
-      }
-        }
-        catch (VMDisconnectedException e) {
-                System.out.println("Virtual Machine is disconnected.");
-        } catch (InterruptedException | AbsentInformationException e) {
-            e.printStackTrace();
-        }
     }
 
     public HashMap<String, String> getMethodSounds() {
