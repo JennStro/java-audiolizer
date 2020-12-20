@@ -16,28 +16,29 @@ public class Band implements Instruments {
                 .addNote("C2", "C2_Piano.aif");
     }
 
-    private HashMap<String, String> getGuitar() {
-        return new HashMap<String, String>(Map.of("C", "C1_ClassicClean.aif",
-                "D", "D1_ClassicClean.aif",
-                "E", "E1_ClassicClean.aif",
-                "F", "F1_ClassicClean.aif",
-                "G", "G1_ClassicClean.aif",
-                "A", "A1_ClassicClean.aif",
-                "H", "H1_ClassicClean.aif",
-                "C2", "C2_ClassicClean.aif"));
+    private Instrument getGuitar() {
+        return new Instrument().addNote("C", "C1_ClassicClean.aif")
+                .addNote("D", "D1_ClassicClean.aif")
+                .addNote("E", "E1_ClassicClean.aif")
+                .addNote("F", "F1_ClassicClean.aif")
+                .addNote("G", "G1_ClassicClean.aif")
+                .addNote("A", "A1_ClassicClean.aif")
+                .addNote("H", "H1_ClassicClean.aif")
+                .addNote("C2", "C2_ClassicClean.aif");
     }
 
-    private HashMap<String, String> getDrums() {
-        return new HashMap<String, String>(Map.of("C", "C1_SoCal.aif",
-                "D", "D1_SoCal.aif",
-                "E", "E1_SoCal.aif",
-                "H", "H1_SoCal.aif",
-                "C2", "C2_SoCal.aif",
-                "D2", "D2_SoCal.aif"));
+    private Instrument getDrums() {
+
+        return new Instrument().addNote("C", "C1_SoCal.aif")
+                .addNote("D", "D1_SoCal.aif")
+                .addNote("E", "E1_SoCal.aif")
+                .addNote("H", "H1_SoCal.aif")
+                .addNote("C2", "C2_SoCal.aif")
+                .addNote("D2", "D2_SoCal.aif");
     }
 
     @Override
-    public ArrayList<HashMap<String, String>> getInstruments() {
+    public ArrayList<Instrument> getInstruments() {
         return new ArrayList<>(List.of(getPiano(), getGuitar(), getDrums()));
     }
 

@@ -140,8 +140,8 @@ public class Audiolizer {
 
             ArrayList<String> methods = clazz.getValue();
 
-            HashMap<String, String> instrumentToPlay = this.instruments.getInstruments().get(instrument);
-            ArrayList<String> notes = this.instruments.getNotes(instrumentToPlay);
+            Instrument instrumentToPlay = this.instruments.getInstruments().get(instrument);
+            ArrayList<String> notes = instrumentToPlay.getNoteCharacters();
             int noteNumber = 0;
 
             for (String method : methods) {
@@ -151,7 +151,7 @@ public class Audiolizer {
                     instrument = instrument - 1;
                 } else {
                     String note = notes.get(noteNumber);
-                    methodSounds.put(method, "resources/" + instrumentToPlay.get(note));
+                    methodSounds.put(method, "resources/" + instrumentToPlay.getSoundFile(note));
                     noteNumber = (noteNumber + 1) % notes.size();
                 }
             }
@@ -160,13 +160,12 @@ public class Audiolizer {
         }
     }
 
-    public HashMap<String, String> getRandomInstrument() {
+    public Instrument getRandomInstrument() {
         return this.instruments.getInstruments().get(new Random().nextInt(this.instruments.getInstruments().size()-1));
     }
 
     public String getRandomSoundFile() {
-        ArrayList<String> notes = this.instruments.getNotes(getRandomInstrument());
-        return getRandomInstrument()
+        return getRandomInstrument().getRandomSoundFile();
     }
 
     public ArrayList<String> getMethodsInExecutionOrder() {
@@ -201,8 +200,6 @@ public class Audiolizer {
                     }
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (AbsentInformationException e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {
