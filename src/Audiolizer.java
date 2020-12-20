@@ -18,19 +18,11 @@ public class Audiolizer {
     private final Instruments instruments;
     private HashMap<String, String> mappedSounds;
     private Class debugee;
-    private final HashMap<String, String> methodSounds;
-    private final HashMap<String, Integer> lengthOfMethod;
-    private final ArrayList<String> methodsInExecutionOrder;
-    private final HashMap<String, ArrayList<String>> classes;
     private Long delayInMilliseconds = 1000L;
 
     private AudioPlayer currentPlayer;
 
     public Audiolizer(Instruments intruments, Class<Main> debugee) {
-        this.classes = new HashMap<>();
-        this.methodSounds = new HashMap<>();
-        this.lengthOfMethod = new HashMap<>();
-        this.methodsInExecutionOrder = new ArrayList<>();
         this.instruments = intruments;
         this.debugee = debugee;
         this.mappedSounds = new HashMap<>();
@@ -139,8 +131,8 @@ public class Audiolizer {
     }
 
     public static void main(String[] args) {
-        Audiolizer audiolizer = new Audiolizer(new Band(), Main.class);
-        audiolizer.setSpeed(1000L);
+        Audiolizer audiolizer = new Audiolizer(new Orchestra(), Main.class);
+        audiolizer.setSpeed(4000L);
         audiolizer.playMusic();
         while (audiolizer.isPlaying()) {
             try {

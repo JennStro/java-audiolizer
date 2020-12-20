@@ -8,11 +8,7 @@ public class Main {
         Test2 test2 = new Test2();
 
 
-        test2.reallyShortMethod();
-
-        test2.reallyLongMethod();
-
-        test2.helloWorld();
+        test2.coolMethod();
 
         Test3 test3 = new Test3();
 
@@ -20,9 +16,6 @@ public class Main {
         test2.helloWorldAgain();
 
         test1.hello();
-
-        test2.reallyLongMethod();
-        test2.reallyShortMethod();
 
     }
 }
