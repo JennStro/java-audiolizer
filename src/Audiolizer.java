@@ -183,48 +183,6 @@ public class Audiolizer {
 
     public static void main(String[] args) {
         Audiolizer audiolizer = new Audiolizer(new MercuryLake(), Main.class);
-
-        VirtualMachine virtualMachine;
-        try {
-            virtualMachine = audiolizer.connectAndLaunchVirtualMachine();
-            //audiolizer.registerClassesAndMethods(virtualMachine);
-
-            EventSet events;
-            try {
-                while ((events = virtualMachine.eventQueue().remove()) != null) {
-                    for (Event event : events) {
-                        if (event instanceof ExceptionEvent) {
-                            System.out.println(event.toString());
-                        }
-
-                        if (event instanceof MethodEntryEvent) {
-                            Method enteredMethod = ((MethodEntryEvent) event).method();
-
-                            //addMethod(enteredMethod);
-                        }
-                        virtualMachine.resume();
-                    }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<String> methods = audiolizer.getMethodsInExecutionOrder();
-        audiolizer.assignNotesToMethods();
-
-        for (String method : methods) {
-            System.out.println(method);
-            if (method.contains("Main.main")) {
-                AudioPlayer player = new AudioPlayer();
-                player.playAndDelay(audiolizer.getMethodSounds().get(method), 5000L);
-            } else {
-                AudioPlayer player = new AudioPlayer();
-                System.out.println(audiolizer.getMethodSounds().get(method));
-                player.playAndDelay(audiolizer.getMethodSounds().get(method), 5000L);
-            }
-        }
+        audiolizer.playMusic();
     }
 }
