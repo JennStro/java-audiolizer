@@ -68,13 +68,14 @@ public class Audiolizer {
                         String methodName = ((MethodEntryEvent) event).method().toString();
 
                         if (mappedSounds.containsKey(methodName)) {
-                            player.playAndDelay(mappedSounds.get(methodName), 5000L);
                             System.out.println(methodName + " " + mappedSounds.get(methodName));
+                            player.playAndDelay(mappedSounds.get(methodName), 5000L);
+
                         } else {
                             String randomSoundFile = getRandomSoundFile();
+                            System.out.println(methodName + " " + randomSoundFile);
                             mappedSounds.put(methodName, randomSoundFile);
                             player.playAndDelay(randomSoundFile, 5000L);
-                            System.out.println(methodName + " " + randomSoundFile);
                         }
                     }
                     virtualMachine.resume();
