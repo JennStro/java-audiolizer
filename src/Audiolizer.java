@@ -160,6 +160,15 @@ public class Audiolizer {
         }
     }
 
+    public HashMap<String, String> getRandomInstrument() {
+        return this.instruments.getInstruments().get(new Random().nextInt(this.instruments.getInstruments().size()-1));
+    }
+
+    public String getRandomSoundFile() {
+        ArrayList<String> notes = this.instruments.getNotes(getRandomInstrument());
+        return getRandomInstrument()
+    }
+
     public ArrayList<String> getMethodsInExecutionOrder() {
         return methodsInExecutionOrder;
     }
@@ -173,7 +182,29 @@ public class Audiolizer {
             virtualMachine = audiolizer.connectAndLaunchVirtualMachine();
             audiolizer.listenToMethodEntryEvents(virtualMachine);
             virtualMachine.eventRequestManager().createExceptionRequest(null, true, true).enable();
-            audiolizer.registerClassesAndMethods(virtualMachine);
+            //audiolizer.registerClassesAndMethods(virtualMachine);
+
+            EventSet events;
+            try {
+                while ((events = virtualMachine.eventQueue().remove()) != null) {
+                    for (Event event : events) {
+                        if (event instanceof ExceptionEvent) {
+                            System.out.println(event.toString());
+                        }
+
+                        if (event instanceof MethodEntryEvent) {
+                            Method enteredMethod = ((MethodEntryEvent) event).method();
+
+                            //addMethod(enteredMethod);
+                        }
+                        virtualMachine.resume();
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (AbsentInformationException e) {
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
