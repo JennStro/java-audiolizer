@@ -5,15 +5,15 @@ import java.util.Map;
 
 public class Band implements Instruments {
 
-    private HashMap<String, String> getPiano() {
-        return new HashMap<String, String>(Map.of("C", "C1_Piano.aif",
-                "D", "D1_Piano.aif",
-                "E", "E1_Piano.aif",
-                "F", "F1_Piano.aif",
-                "G", "G1_Piano.aif",
-                "A", "A1_Piano.aif",
-                "H", "H1_Piano.aif",
-                "C2", "C2_Piano.aif"));
+    private Instrument getPiano() {
+        return new Instrument().addNote("C", "C1_Piano.aif")
+                .addNote("D", "D1_Piano.aif")
+                .addNote("E", "E1_Piano.aif")
+                .addNote("F", "F1_Piano.aif")
+                .addNote("G", "G1_Piano.aif")
+                .addNote("A", "A1_Piano.aif")
+                .addNote("H", "H1_Piano.aif")
+                .addNote("C2", "C2_Piano.aif");
     }
 
     private HashMap<String, String> getGuitar() {

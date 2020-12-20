@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Instrument {
 
-    HashMap<String, String> instrument = new HashMap<>();
+    private HashMap<String, String> instrument = new HashMap<>();
 
     public Instrument addNote(String note, String soundFile) {
         instrument.put(note, soundFile);
@@ -19,7 +20,7 @@ public class Instrument {
     }
 
     public String getRandomSoundFile() {
-        return
+        return getSoundFile(getNoteCharacters().get(new Random().nextInt(getNoteCharacters().size()-1)));
     }
 
 }

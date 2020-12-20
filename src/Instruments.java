@@ -11,19 +11,7 @@ public interface Instruments {
      * An instrument is a map containing notes and path to soundfile. <"C", "path/to/intrument_C_note">
      *
      */
-    ArrayList<HashMap<String, String>> getInstruments();
-
-    /**
-     * @param instrument
-     * @return the notes that this instrument in playing
-     */
-    default ArrayList<String> getNotes(HashMap<String, String> instrument) {
-        ArrayList<String> notes = new ArrayList<>();
-        for (String note : instrument.keySet()) {
-            notes.add(note);
-        }
-        return notes;
-    }
+    ArrayList<Instrument> getInstruments();
 
     /**
      *
