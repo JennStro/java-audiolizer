@@ -14,7 +14,6 @@ public class Audiolizer {
     private final HashMap<String, Integer> lengthOfMethod;
     private final ArrayList<String> methodsInExecutionOrder;
     private final HashMap<String, ArrayList<String>> classes;
-    private final int minimum_length_of_method = 1;
 
     public Audiolizer(Instruments intruments) {
         this.classes = new HashMap<>();
@@ -76,6 +75,7 @@ public class Audiolizer {
 
         String callingClass = callingClass(method);
 
+        int minimum_length_of_method = 1;
         if (!classes.containsKey(callingClass)) {
             ArrayList<String> classMethods = new ArrayList<>();
             classMethods.add(method.toString());
@@ -119,11 +119,9 @@ public class Audiolizer {
         }
         catch (VMDisconnectedException e) {
                 System.out.println("Virtual Machine is disconnected.");
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | AbsentInformationException e) {
             e.printStackTrace();
-        } catch (AbsentInformationException e) {
-        e.printStackTrace();
-    }
+        }
     }
 
     public HashMap<String, String> getMethodSounds() {
