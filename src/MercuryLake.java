@@ -33,8 +33,4 @@ public class MercuryLake implements Instruments {
         return getInstruments().size();
     }
 
-    @Override
-    public String getMainMethodSound() {
-        return "resources/A_MercuryLake.aif";
-    }
 }

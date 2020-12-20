@@ -8,7 +8,8 @@ public class Band implements Instruments {
                 .addNote("D", "resources/Piano/D1_Piano.aif")
                 .addNote("E", "resources/Piano/E1_Piano.aif")
                 .addNote("G", "resources/Piano/G1_Piano.aif")
-                .addNote("A", "resources/Piano/A1_Piano.aif");
+                .addNote("A", "resources/Piano/A1_Piano.aif")
+                .addNote("FG", "resources/FG1_Piano.aif");
     }
 
     private Instrument getGuitar() {
@@ -42,8 +43,4 @@ public class Band implements Instruments {
         return getInstruments().size();
     }
 
-    @Override
-    public String getMainMethodSound() {
-        return "resources/FG1_Piano.aif";
-    }
 }

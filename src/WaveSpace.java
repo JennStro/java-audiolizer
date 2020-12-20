@@ -12,7 +12,8 @@ public class WaveSpace implements Instruments {
                 .addNote("G", "resources/Effects/G1_WaveSpace.aif")
                 .addNote("A", "resources/Effects/A1_WaveSpace.aif")
                 .addNote("H", "resources/Effects/H1_WaveSpace.aif")
-                .addNote("C2", "resources/Effects/C2_WaveSpace.aif");
+                .addNote("C2", "resources/Effects/C2_WaveSpace.aif")
+                .addNote("M", "resources/Main_WaveSpace.aif");
     }
 
     @Override
@@ -23,10 +24,5 @@ public class WaveSpace implements Instruments {
     @Override
     public int numberOfInstruments() {
         return getInstruments().size();
-    }
-
-    @Override
-    public String getMainMethodSound() {
-        return "resources/Main_WaveSpace.aif";
     }
 }

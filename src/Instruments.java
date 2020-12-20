@@ -17,9 +17,4 @@ public interface Instruments {
      */
     int numberOfInstruments();
 
-    /**
-     *
-     * @return path to file that will be played when program is started
-     */
-    String getMainMethodSound();
 }
