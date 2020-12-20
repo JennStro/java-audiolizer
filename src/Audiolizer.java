@@ -71,6 +71,9 @@ public class Audiolizer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        catch (VMDisconnectedException e) {
+            System.out.println("Virtual Machine is disconnected.");
+        }
     }
 
     /**
