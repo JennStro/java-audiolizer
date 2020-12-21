@@ -11,24 +11,12 @@ public class Test2 {
 
     }
 
-    public void reallyLongMethod(){
-
-
-        System.out.println();
-        System.out.println();
-
-
-        System.out.println();
-
-
-        System.out.println();
-
-
-
-
-
+    public void coolMethod(){
+        coolSecondMethod();
 
     }
 
-    public void reallyShortMethod(){};
+    public void coolSecondMethod(){
+        Integer.compare(34, 34);
+    }
 }

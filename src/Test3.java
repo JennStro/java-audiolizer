@@ -1,4 +1,4 @@
 public class Test3 {
 
-    public void coffeTime() {};
+    public void coffeTime() {}
 }
