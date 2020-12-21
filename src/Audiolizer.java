@@ -22,7 +22,7 @@ public class Audiolizer {
 
     private AudioPlayer currentPlayer;
 
-    public Audiolizer(Instruments intruments, Class<Main> debugee) {
+    public Audiolizer(Instruments intruments, Class<?> debugee) {
         this.instruments = intruments;
         this.debugee = debugee;
         this.mappedSounds = new HashMap<>();
@@ -41,7 +41,14 @@ public class Audiolizer {
         connectorArguments.get("main").setValue(debugee.getName());
         connectorArguments.get("options").setValue("-cp " + System.getProperty("java.class.path"));
         try {
-            return launchingConnector.launch(connectorArguments);
+            VirtualMachine virtualMachine = launchingConnector.launch(connectorArguments);
+            System.out.println("Running virtual machine: ");
+            System.out.println("------------");
+            System.out.println("Name: " + virtualMachine.name());
+            System.out.println("Version: " + virtualMachine.version());
+            System.out.println("Classpath: " + System.getProperty("java.class.path"));
+            System.out.println("------------");
+            return virtualMachine;
         } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
             e.printStackTrace();
         }
@@ -130,8 +137,8 @@ public class Audiolizer {
     }
 
     public static void main(String[] args) {
-        Audiolizer audiolizer = new Audiolizer(new Orchestra(), Main.class);
-        audiolizer.setSpeed(4000L);
+        Audiolizer audiolizer = new Audiolizer(new WaveSpace(), Main.class);
+        audiolizer.setSpeed(3000L);
         audiolizer.playMusic();
         while (audiolizer.isPlaying()) {
             try {
